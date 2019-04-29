@@ -9,7 +9,7 @@ This is a MERN stack application from the "MERN Stack Front To Back" course on [
 ```
 # change default.json file in cofig folder
 
-# this file is located in ```config/default.json```
+# this file is located in config/default.json
 
 # add uri of your mongodb connection for example
 
