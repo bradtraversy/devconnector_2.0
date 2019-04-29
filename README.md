@@ -6,6 +6,17 @@ This is a MERN stack application from the "MERN Stack Front To Back" course on [
 
 ## Quick Start
 
+```
+# change default.json file in cofig folder
+
+# this file is located in ```config/default.json```
+
+# add uri of your mongodb connection for example
+
+ "mongoURI": "mongodb://localhost/dev-social",
+ 
+```
+
 ```bash
 # Install server dependencies
 npm install
