@@ -7,7 +7,7 @@ This is a MERN stack application from the "MERN Stack Front To Back" course on [
 ## Quick Start
 
 ```
-# change default.json file in cofig folder
+# change default.json file in config folder
 
 # this file is located in config/default.json
 
