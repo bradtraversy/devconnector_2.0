@@ -22,7 +22,7 @@ const ProfileExperience = ({
 );
 
 ProfileExperience.propTypes = {
-  experience: PropTypes.array.isRequired
+  experience: PropTypes.object.isRequired
 };
 
 export default ProfileExperience;
