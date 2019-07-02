@@ -272,7 +272,7 @@ router.delete('/experience/:exp_id', auth, async (req, res) => {
     console.error(error);
     return res.status(500).json({ msg: "Server error" });
   }
-};
+});
 
 // @route    PUT api/profile/education
 // @desc     Add profile education
@@ -340,15 +340,15 @@ router.put(
 // @route    DELETE api/profile/education/:edu_id
 // @desc     Delete education from profile
 // @access   Private
-router.delete('/education/:edu_id', auth, async (req, res) => {
-  try {
-    const profile = await Profile.findOne({ user: req.user.id });
+//router.delete('/education/:edu_id', auth, async (req, res) => {
+  //try {
+    //const profile = await Profile.findOne({ user: req.user.id });
 
     // Get remove index
-    const removeIndex = profile.education
-      .map(item => item.id)
-      .indexOf(req.params.edu_id);
-
+    //const removeIndex = profile.education
+      //.map(item => item.id)
+      //.indexOf(req.params.edu_id);
+/*
     profile.education.splice(removeIndex, 1);
 
     await profile.save();
@@ -359,7 +359,34 @@ router.delete('/education/:edu_id', auth, async (req, res) => {
     res.status(500).send('Server Error');
   }
 });
+*/
 
+router.delete("/education/:edu_id", auth, async (req, res) => {
+  try {
+    const foundProfile = await Profile.findOne({ user: req.user.id });
+    const eduIds = foundProfile.education.map(edu => edu._id.toString());
+    // if i dont add .toString() it returns this weird mongoose coreArray and the ids are somehow objects and it still deletes anyway even if you put /education/5
+    const removeIndex = eduIds.indexOf(req.params.edu_id);
+    if (removeIndex === -1) {
+      return res.status(500).json({ msg: "Server error" });
+    } else {
+      // theses console logs helped me figure it out
+      /*   console.log("eduIds", eduIds);
+      console.log("typeof eduIds", typeof eduIds);
+      console.log("req.params", req.params);
+      console.log("removed", eduIds.indexOf(req.params.edu_id));
+ */ foundProfile.education.splice(
+        removeIndex,
+        1,
+      );
+      await foundProfile.save();
+      return res.status(200).json(foundProfile);
+    }
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ msg: "Server error" });
+  }
+});
 // @route    GET api/profile/github/:username
 // @desc     Get user repos from Github
 // @access   Public
