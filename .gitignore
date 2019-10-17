@@ -1,5 +1,9 @@
 node_modules/
 config/production.json
+<<<<<<< HEAD
 .eslintrc.json
 package.json
 package-lock.json
+=======
+.eslintrc.json
+>>>>>>> ea55706d43110de78d7efdbc05fc7209b4b76661
