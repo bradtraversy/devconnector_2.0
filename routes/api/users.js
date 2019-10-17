@@ -49,11 +49,11 @@ router.post(
 			});
 
 			// Better format for doing the same thing
-			bcrypt.genSalt(saltRounds, function(err, salt) {
+			bcrypt.genSalt(10, function(err, salt) {
 				if (err) {
 					throw err;
 				} else {
-					bcrypt.hash(myPlaintextPassword, salt, function(err, hash) {
+					bcrypt.hash(password, salt, function(err, hash) {
 						if (err) {
 							throw err;
 						} else {
