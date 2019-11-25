@@ -1,5 +1,5 @@
 {
-  "mongoURI": "mongodb+srv://bradt1234:bradt1234@devcamperdev-cbmll.mongodb.net/test?retryWrites=true&w=majority",
+  "mongoURI": "",
   "jwtSecret": "secret",
   "githubClientId": "",
   "githubSecret": ""
