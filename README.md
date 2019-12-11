@@ -33,6 +33,13 @@ cd client
 npm run build
 ```
 
+## Run E2E tests with Cypress
+- [More info on Cypress](https://www.cypress.io/how-it-works)
+- [Video demo of Cypress running on DevConnector](https://drive.google.com/file/d/1z7UR7ApbHi5_DjuFkUUEUbBQE9RlsOJV/view)
+- Run through different user stories and validation sets with automated Cypress testing! Running `npm i` already installed Cypress as a dev dependency, easy as that
+- Run `npm run cypress` at root and Cypress web app will launch
+- Run spec tests under `integration/devconnector` and never test by hand again!
+
 ## App Info
 
 ### Author
