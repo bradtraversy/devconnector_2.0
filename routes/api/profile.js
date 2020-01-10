@@ -241,14 +241,14 @@ router.put(
 
 router.delete('/experience/:exp_id', auth, async (req, res) => {
   try {
-      //const foundProfile = await profileModel.findOneAndUpdate( { user: req.user.id },
-			//  { $pull: { experience: { _id: req.params.id }}},
+      //const foundProfile = await Profile.findOneAndUpdate( { user: req.user.id },
+			//  { $pull: { experience: { _id: req.params.exp_id }}},
 			//  {new: true});
       const foundProfile = await Profile.findOne({ user: req.user.id });
     
       // Filter exprience array using _id (NOTE: _id is a BSON type needs to be converted to string)
       // This can also be omitted and the next line and findOneAndUpdate to be used instead (above implementation)
-      foundProfile.experience.filter(exp => exp._id.toString() !== req.params.exp_id);
+      foundProfile.experience = foundProfile.experience.filter(exp => exp._id.toString() !== req.params.exp_id);
       
       await foundProfile.save();
       return res.status(200).json(foundProfile);
