@@ -241,19 +241,15 @@ router.put(
 
 router.delete('/experience/:exp_id', auth, async (req, res) => {
   try {
-    const foundProfile = await Profile.findOne({ user: req.user.id });
-    const expIds = foundProfile.experience.map(exp => exp._id.toString());
-    // if i dont add .toString() it returns this weird mongoose coreArray and the ids are somehow objects and it still deletes anyway even if you put /experience/5
-    const removeIndex = expIds.indexOf(req.params.exp_id);
-    if (removeIndex === -1) {
-      return res.status(500).json({ msg: "Server error" });
-    } else {
-      // theses console logs helped me figure it out
-      console.log("expIds", expIds);
-      console.log("typeof expIds", typeof expIds);
-      console.log("req.params", req.params);
-      console.log("removed", expIds.indexOf(req.params.exp_id));
-      foundProfile.experience.splice(removeIndex, 1);
+      //const foundProfile = await Profile.findOneAndUpdate( { user: req.user.id },
+			//  { $pull: { experience: { _id: req.params.exp_id }}},
+			//  {new: true});
+      const foundProfile = await Profile.findOne({ user: req.user.id });
+    
+      // Filter exprience array using _id (NOTE: _id is a BSON type needs to be converted to string)
+      // This can also be omitted and the next line and findOneAndUpdate to be used instead (above implementation)
+      foundProfile.experience = foundProfile.experience.filter(exp => exp._id.toString() !== req.params.exp_id);
+      
       await foundProfile.save();
       return res.status(200).json(foundProfile);
     }
