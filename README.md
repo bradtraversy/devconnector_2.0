@@ -6,9 +6,9 @@ This is a MERN stack application from the "MERN Stack Front To Back" course on [
 
 ## Quick Start
 
-````
 # add a default.json file in config folder with the folowing
-```json
+
+```
 {
   "mongoURI": "<your_mongo_DBAtlas_uri_with_credentials>",
   "jwtSecret": "secret",
@@ -18,22 +18,26 @@ This is a MERN stack application from the "MERN Stack Front To Back" course on [
 ```
 
 # Install server dependencies
+
 ```bash
 npm install
 ```
 
 # Install client dependencies
+
 ```bash
 cd client
 npm install
 ```
 
 # Run both Express & React from root
+
 ```bash
 npm run dev
 ```
 
 # Build for production
+
 ```bash
 cd client
 npm run build
@@ -53,4 +57,3 @@ Brad Traversy
 ### License
 
 This project is licensed under the MIT License
-````
