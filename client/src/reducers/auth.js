@@ -45,6 +45,6 @@ export default function(state = initialState, action) {
         loading: false
       }
     default:
-      throw Error(`Unsupported type: ${action.type}`)
+      return state
   }
 }
