@@ -6,11 +6,11 @@ This is a MERN stack application from the "MERN Stack Front To Back" course on [
 
 ## Quick Start
 
-### add a default.json file in config folder with the folowing
+### Add a default.json file in config folder with the folowing
 
 ```
 {
-  "mongoURI": "<your_mongo_DBAtlas_uri_with_credentials>",
+  "mongoURI": "<your_mongoDB_Atlas_uri_with_credentials>",
   "jwtSecret": "secret",
   "githubClientId": "",
   "githubSecret": ""
