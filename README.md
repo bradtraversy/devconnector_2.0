@@ -6,7 +6,7 @@ This is a MERN stack application from the "MERN Stack Front To Back" course on [
 
 ## Quick Start
 
-# add a default.json file in config folder with the folowing
+### add a default.json file in config folder with the folowing
 
 ```
 {
@@ -17,26 +17,26 @@ This is a MERN stack application from the "MERN Stack Front To Back" course on [
 }
 ```
 
-# Install server dependencies
+### Install server dependencies
 
 ```bash
 npm install
 ```
 
-# Install client dependencies
+### Install client dependencies
 
 ```bash
 cd client
 npm install
 ```
 
-# Run both Express & React from root
+### Run both Express & React from root
 
 ```bash
 npm run dev
 ```
 
-# Build for production
+### Build for production
 
 ```bash
 cd client
