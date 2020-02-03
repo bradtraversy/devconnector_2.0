@@ -6,29 +6,39 @@ This is a MERN stack application from the "MERN Stack Front To Back" course on [
 
 ## Quick Start
 
+### Add a default.json file in config folder with the folowing
+
 ```
-# change default.json file in config folder
-
-# this file is located in config/default.json
-
-# add uri of your mongodb connection for example
-
- "mongoURI": "mongodb://localhost/dev-social",
- 
+{
+  "mongoURI": "<your_mongoDB_Atlas_uri_with_credentials>",
+  "jwtSecret": "secret",
+  "githubClientId": "",
+  "githubSecret": ""
+}
 ```
+
+### Install server dependencies
 
 ```bash
-# Install server dependencies
 npm install
+```
 
-# Install client dependencies
+### Install client dependencies
+
+```bash
 cd client
 npm install
+```
 
-# Run both Express & React from root
+### Run both Express & React from root
+
+```bash
 npm run dev
+```
 
-# Build for production
+### Build for production
+
+```bash
 cd client
 npm run build
 ```

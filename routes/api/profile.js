@@ -14,10 +14,9 @@ const Post = require('../../models/Post');
 // @access   Private
 router.get('/me', auth, async (req, res) => {
   try {
-    const profile = await Profile.findOne({ user: req.user.id }).populate(
-      'user',
-      ['name', 'avatar']
-    );
+    const profile = await Profile.findOne({
+      user: req.user.id
+    }).populate('user', ['name', 'avatar']);
 
     if (!profile) {
       return res.status(400).json({ msg: 'There is no profile for this user' });
@@ -241,21 +240,22 @@ router.put(
 
 router.delete('/experience/:exp_id', auth, async (req, res) => {
   try {
-      //const foundProfile = await Profile.findOneAndUpdate( { user: req.user.id },
-			//  { $pull: { experience: { _id: req.params.exp_id }}},
-			//  {new: true});
-      const foundProfile = await Profile.findOne({ user: req.user.id });
-    
-      // Filter exprience array using _id (NOTE: _id is a BSON type needs to be converted to string)
-      // This can also be omitted and the next line and findOneAndUpdate to be used instead (above implementation)
-      foundProfile.experience = foundProfile.experience.filter(exp => exp._id.toString() !== req.params.exp_id);
-      
-      await foundProfile.save();
-      return res.status(200).json(foundProfile);
-    }
+    //const foundProfile = await Profile.findOneAndUpdate( { user: req.user.id },
+    //  { $pull: { experience: { _id: req.params.exp_id }}},
+    //  {new: true});
+    const foundProfile = await Profile.findOne({ user: req.user.id });
+
+    // Filter exprience array using _id (NOTE: _id is a BSON type needs to be converted to string)
+    // This can also be omitted and the next line and findOneAndUpdate to be used instead (above implementation)
+    foundProfile.experience = foundProfile.experience.filter(
+      exp => exp._id.toString() !== req.params.exp_id
+    );
+
+    await foundProfile.save();
+    return res.status(200).json(foundProfile);
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ msg: "Server error" });
+    return res.status(500).json({ msg: 'Server error' });
   }
 });
 
@@ -326,13 +326,13 @@ router.put(
 // @desc     Delete education from profile
 // @access   Private
 //router.delete('/education/:edu_id', auth, async (req, res) => {
-  //try {
-    //const profile = await Profile.findOne({ user: req.user.id });
+//try {
+//const profile = await Profile.findOne({ user: req.user.id });
 
-    // Get remove index
-    //const removeIndex = profile.education
-      //.map(item => item.id)
-      //.indexOf(req.params.edu_id);
+// Get remove index
+//const removeIndex = profile.education
+//.map(item => item.id)
+//.indexOf(req.params.edu_id);
 /*
     profile.education.splice(removeIndex, 1);
 
@@ -346,14 +346,14 @@ router.put(
 });
 */
 
-router.delete("/education/:edu_id", auth, async (req, res) => {
+router.delete('/education/:edu_id', auth, async (req, res) => {
   try {
     const foundProfile = await Profile.findOne({ user: req.user.id });
     const eduIds = foundProfile.education.map(edu => edu._id.toString());
     // if i dont add .toString() it returns this weird mongoose coreArray and the ids are somehow objects and it still deletes anyway even if you put /education/5
     const removeIndex = eduIds.indexOf(req.params.edu_id);
     if (removeIndex === -1) {
-      return res.status(500).json({ msg: "Server error" });
+      return res.status(500).json({ msg: 'Server error' });
     } else {
       // theses console logs helped me figure it out
       /*   console.log("eduIds", eduIds);
@@ -362,14 +362,14 @@ router.delete("/education/:edu_id", auth, async (req, res) => {
       console.log("removed", eduIds.indexOf(req.params.edu_id));
  */ foundProfile.education.splice(
         removeIndex,
-        1,
+        1
       );
       await foundProfile.save();
       return res.status(200).json(foundProfile);
     }
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ msg: "Server error" });
+    return res.status(500).json({ msg: 'Server error' });
   }
 });
 // @route    GET api/profile/github/:username
@@ -378,11 +378,13 @@ router.delete("/education/:edu_id", auth, async (req, res) => {
 router.get('/github/:username', (req, res) => {
   try {
     const options = {
-      uri: encodeURI(`https://api.github.com/users/${
-        req.params.username
-      }/repos?per_page=5&sort=created:asc&client_id=${config.get(
-        'githubClientId'
-      )}&client_secret=${config.get('githubSecret')}`),
+      uri: encodeURI(
+        `https://api.github.com/users/${
+          req.params.username
+        }/repos?per_page=5&sort=created:asc&client_id=${config.get(
+          'githubClientId'
+        )}&client_secret=${config.get('githubSecret')}`
+      ),
       method: 'GET',
       headers: { 'user-agent': 'node.js' }
     };
