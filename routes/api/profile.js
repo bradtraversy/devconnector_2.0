@@ -218,35 +218,11 @@ router.put(
 // @route    DELETE api/profile/experience/:exp_id
 // @desc     Delete experience from profile
 // @access   Private
-// router.delete('/experience/:exp_id', auth, async (req, res) => {
-//   try {
-//     const profile = await Profile.findOne({ user: req.user.id });
-
-//     // Get remove index
-//     const removeIndex = profile.experience
-//       .map(item => item.id)
-//       .indexOf(req.params.exp_id);
-
-//     profile.experience.splice(removeIndex, 1);
-
-//     await profile.save();
-
-//     res.json(profile);
-//   } catch (err) {
-//     console.error(err.message);
-//     res.status(500).send('Server Error');
-//   }
-// });
 
 router.delete('/experience/:exp_id', auth, async (req, res) => {
   try {
-    //const foundProfile = await Profile.findOneAndUpdate( { user: req.user.id },
-    //  { $pull: { experience: { _id: req.params.exp_id }}},
-    //  {new: true});
     const foundProfile = await Profile.findOne({ user: req.user.id });
 
-    // Filter exprience array using _id (NOTE: _id is a BSON type needs to be converted to string)
-    // This can also be omitted and the next line and findOneAndUpdate to be used instead (above implementation)
     foundProfile.experience = foundProfile.experience.filter(
       exp => exp._id.toString() !== req.params.exp_id
     );
@@ -325,26 +301,6 @@ router.put(
 // @route    DELETE api/profile/education/:edu_id
 // @desc     Delete education from profile
 // @access   Private
-//router.delete('/education/:edu_id', auth, async (req, res) => {
-//try {
-//const profile = await Profile.findOne({ user: req.user.id });
-
-// Get remove index
-//const removeIndex = profile.education
-//.map(item => item.id)
-//.indexOf(req.params.edu_id);
-/*
-    profile.education.splice(removeIndex, 1);
-
-    await profile.save();
-
-    res.json(profile);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server Error');
-  }
-});
-*/
 
 router.delete('/education/:edu_id', auth, async (req, res) => {
   try {
@@ -372,6 +328,7 @@ router.delete('/education/:edu_id', auth, async (req, res) => {
     return res.status(500).json({ msg: 'Server error' });
   }
 });
+
 // @route    GET api/profile/github/:username
 // @desc     Get user repos from Github
 // @access   Public
