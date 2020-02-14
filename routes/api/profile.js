@@ -75,10 +75,11 @@ router.post(
     // add website and skills
     if (website)
       profileFields.website = normalize(req.body.website, { forceHttps: true });
-    if (skills)
+    if (skills && typeof skills === 'string')
       profileFields.skills = req.body.skills
         .split(',')
         .map(skill => skill.trim());
+    else if (Array.isArray(skills)) profileFields.skills = skills;
 
     // Build social object and add to profileFields
     const socialfields = ['youtube', 'twitter', 'instagram', 'linkedin'];

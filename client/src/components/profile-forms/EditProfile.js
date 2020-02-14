@@ -128,7 +128,7 @@ const EditProfile = ({
             type="text"
             placeholder="* Skills"
             name="skills"
-            value={Array.isArray(skills) ? skills.join(', ') : skills}
+            value={skills}
             onChange={onChange}
           />
           <small className="form-text">
