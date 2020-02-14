@@ -4,6 +4,7 @@ const config = require('config');
 const router = express.Router();
 const auth = require('../../middleware/auth');
 const { check, validationResult } = require('express-validator');
+// bring in normalize to give us a proper url, regardless of what user entered
 const normalize = require('normalize-url');
 
 const Profile = require('../../models/Profile');
@@ -51,9 +52,9 @@ router.post(
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
+
     // Build profile object
-    const profileFields = { user: req.user.id };
-    const mainfields = [
+    const mainFields = [
       'company',
       'location',
       'bio',
@@ -61,18 +62,24 @@ router.post(
       'githubusername'
     ];
 
-    mainfields.forEach(field => {
-      if (req.body[field]) profileFields[field] = req.body[field];
-    });
+    // build the main fields
+    const profileFields = mainFields.reduce(
+      (acc, field) => {
+        if (req.body[field]) acc[field] = req.body[field];
+        return acc;
+      },
+      { user: req.user.id } // initial object
+    );
 
+    // add website and skills
     if (req.body.website)
       profileFields.website = normalize(website, { forceHttps: true });
-    if (req.body.skills) {
+    if (req.body.skills)
       profileFields.skills = skills.split(',').map(skill => skill.trim());
-    }
 
-    // Build social object
+    // Build social object and add to profileFields
     const socialfields = ['youtube', 'twitter', 'instagram', 'linkedin'];
+
     profileFields.social = socialfields.reduce((acc, field) => {
       if (req.body[field])
         acc[field] = normalize(req.body[field], { forceHttps: true });
