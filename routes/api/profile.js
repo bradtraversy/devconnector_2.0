@@ -52,43 +52,42 @@ router.post(
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
+    const {
+      company,
+      location,
+      website,
+      bio,
+      skills,
+      status,
+      githubusername,
+      youtube,
+      twitter,
+      instagram,
+      linkedin,
+      facebook
+    } = req.body;
 
-    // Build profile object
-    const mainFields = [
-      'company',
-      'location',
-      'bio',
-      'status',
-      'githubusername'
-    ];
-
-    // build the main fields
-    const profileFields = mainFields.reduce(
-      (acc, field) => {
-        if (req.body[field]) acc[field] = req.body[field];
-        return acc;
-      },
-      { user: req.user.id } // initial object
-    );
-
-    const { website, skills } = req.body;
-    // add website and skills
-    if (website)
-      profileFields.website = normalize(req.body.website, { forceHttps: true });
-    if (skills && typeof skills === 'string')
-      profileFields.skills = req.body.skills
-        .split(',')
-        .map(skill => skill.trim());
-    else if (Array.isArray(skills)) profileFields.skills = skills;
+    const profileFields = {
+      user: req.user.id,
+      company,
+      location,
+      website: website === '' ? '' : normalize(website, { forceHttps: true }),
+      bio,
+      skills: Array.isArray(skills)
+        ? skills
+        : skills.split(',').map(skill => ' ' + skill.trim()),
+      status,
+      githubusername
+    };
 
     // Build social object and add to profileFields
-    const socialfields = ['youtube', 'twitter', 'instagram', 'linkedin'];
+    const socialfields = { youtube, twitter, instagram, linkedin, facebook };
 
-    profileFields.social = socialfields.reduce((acc, field) => {
-      if (req.body[field])
-        acc[field] = normalize(req.body[field], { forceHttps: true });
-      return acc;
-    }, {});
+    for (const [key, value] of Object.entries(socialfields)) {
+      if (value.length > 0)
+        socialfields[key] = normalize(value, { forceHttps: true });
+    }
+    profileFields.social = socialfields;
 
     try {
       // Using upsert option (creates new doc if no match is found):
