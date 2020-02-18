@@ -171,9 +171,10 @@ router.put(
       check('company', 'Company is required')
         .not()
         .isEmpty(),
-      check('from', 'From date is required')
+      check('from', 'From date is required and needs to be from the past')
         .not()
         .isEmpty()
+        .custom((value, { req }) => req.body.to ? value < req.body.to : true)
     ]
   ],
   async (req, res) => {
@@ -254,9 +255,10 @@ router.put(
       check('fieldofstudy', 'Field of study is required')
         .not()
         .isEmpty(),
-      check('from', 'From date is required')
+      check('from', 'From date is required and needs to be from the past')
         .not()
         .isEmpty()
+        .custom((value, { req }) => req.body.to ? value < req.body.to : true)
     ]
   ],
   async (req, res) => {
