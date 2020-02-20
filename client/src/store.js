@@ -14,6 +14,7 @@ const store = createStore(
 );
 
 // set up a store subscription listener
+// to store the users token in localStorage
 
 let currentState;
 
@@ -22,7 +23,7 @@ store.subscribe(() => {
   let previousState = currentState;
   currentState = store.getState();
   // if the token changes set the value in localStorage
-  if (previousState.auth.token !== currentState.auth.token) {
+  if (previousState && previousState.auth.token !== currentState.auth.token) {
     localStorage.setItem('token', currentState.auth.token);
   }
 });
