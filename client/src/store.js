@@ -18,10 +18,10 @@ const store = createStore(
 let currentState;
 
 store.subscribe(() => {
+  // keep track of the previous and current state to compare changes
   let previousState = currentState;
   currentState = store.getState();
-  console.log('previous state', previousState);
-  console.log('current state', currentState);
+  // if the token changes set the value in localStorage
   if (previousState.auth.token !== currentState.auth.token) {
     localStorage.setItem('token', currentState.auth.token);
   }
