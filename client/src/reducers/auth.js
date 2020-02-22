@@ -28,7 +28,6 @@ export default function(state = initialState, action) {
         user: payload
       };
     case REGISTER_SUCCESS:
-      localStorage.setItem('token', payload.token);
       return {
         ...state,
         ...payload,
@@ -36,7 +35,6 @@ export default function(state = initialState, action) {
         loading: false
       };
     case LOGIN_SUCCESS:
-      localStorage.setItem('token', payload.token);
       return {
         ...state,
         ...payload,
@@ -44,7 +42,6 @@ export default function(state = initialState, action) {
         loading: false
       };
     case ACCOUNT_DELETED:
-      localStorage.removeItem('token');
       return {
         ...state,
         token: null,
@@ -53,7 +50,6 @@ export default function(state = initialState, action) {
         user: null
       };
     case LOGOUT:
-      localStorage.removeItem('token');
       return {
         ...state,
         token: null,
