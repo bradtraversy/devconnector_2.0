@@ -24,7 +24,10 @@ store.subscribe(() => {
   currentState = store.getState();
   // if the token changes set the value in localStorage
   if (previousState && previousState.auth.token !== currentState.auth.token) {
-    localStorage.setItem('token', currentState.auth.token);
+    const token = currentState.auth.token;
+    token
+      ? localStorage.setItem('token', token)
+      : localStorage.removeItem('token');
   }
 });
 
