@@ -18,13 +18,14 @@ router.get('/me', auth, async (req, res) => {
   try {
     const profile = await Profile.findOne({
       user: req.user.id
-    }).populate('user', ['name', 'avatar']);
+    });
 
     if (!profile) {
       return res.status(400).json({ msg: 'There is no profile for this user' });
     }
 
-    res.json(profile);
+    // only populate from user document if profile exists
+    res.json(profile.populate('user', ['name', 'avatar']));
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
@@ -174,7 +175,7 @@ router.put(
       check('from', 'From date is required and needs to be from the past')
         .not()
         .isEmpty()
-        .custom((value, { req }) => req.body.to ? value < req.body.to : true)
+        .custom((value, { req }) => (req.body.to ? value < req.body.to : true))
     ]
   ],
   async (req, res) => {
@@ -258,7 +259,7 @@ router.put(
       check('from', 'From date is required and needs to be from the past')
         .not()
         .isEmpty()
-        .custom((value, { req }) => req.body.to ? value < req.body.to : true)
+        .custom((value, { req }) => (req.body.to ? value < req.body.to : true))
     ]
   ],
   async (req, res) => {
