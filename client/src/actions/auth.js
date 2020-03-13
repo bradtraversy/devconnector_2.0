@@ -10,7 +10,6 @@ import {
   LOGOUT,
   CLEAR_PROFILE
 } from './types';
-import setAuthToken from '../utils/setAuthToken';
 
 // Load User
 export const loadUser = () => async dispatch => {
@@ -76,7 +75,6 @@ export const login = (email, password) => async dispatch => {
       payload: res.data
     });
 
-    setAuthToken(res.data.token);
     dispatch(loadUser());
   } catch (err) {
     const errors = err.response.data.errors;
