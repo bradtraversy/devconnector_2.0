@@ -44,7 +44,7 @@ const options = {
 
 ### npm package request depreciated
 
-As of 11th February202 [request](https://www.npmjs.com/package/request) has been depreciated and is no longer maintained.
+As of 11th February 2002 [request](https://www.npmjs.com/package/request) has been depreciated and is no longer maintained.
 We already use [axios](https://www.npmjs.com/package/axios) in the client so we can easily change the above fetching of a users GitHub repositories to use axios.
 
 Install axios in the root of the project
