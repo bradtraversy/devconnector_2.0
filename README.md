@@ -6,7 +6,7 @@ This is a MERN stack application from the "MERN Stack Front To Back" course on [
 
 # Updates since course published
 
-Such is the nature of software, things change frequently and packages are continuously evolving.
+Such is the nature of software; things change frequently, newer more robust paradigms emerge and packages are continuously evolving.
 Hopefully the below will help you adjust your course code to manage the most notable changes.
 
 ## Changes to GitHub API authentication
@@ -106,7 +106,46 @@ to
 const id = uuidv4();
 ```
 
-# Quick Start
+## Addition of normalize-url package
+
+Depending on what a user enters as their website or social links, we may not get a valid clickable url.
+For example a user may enter _**traversymedia.com**_ or _**www.traversymedia.com**_ which won't be a clickable valid url in the UI on the users profile page.
+To solve this we brought in [normalize-url](https://www.npmjs.com/package/normalize-url) to well.. normalize the url.
+
+Regardless of what the user enters it will ammend the url accordingly to make it valid (assuming the site exists).
+You can see the use here in [routes/api/profile.js](https://github.com/bradtraversy/devconnector_2.0/blob/31e5318592b886add58923c751dba73274c711de/routes/api/profile.js#L71)
+
+## Fix broken links in gravatar
+
+There is an unresolved [issue](https://github.com/emerleite/node-gravatar/issues/47) with the [node-gravatar](https://github.com/emerleite/node-gravatar#readme) package, whereby the url is not valid. Fortunately we added normalize-url so we can use that to easily fix the issue. If you're not seeing Gravatar avatars showing in your app then most likely you need to implement this change.
+You can see the code use here in [routes/api/users.js](https://github.com/bradtraversy/devconnector_2.0/blob/master/routes/api/users.js#L44)
+
+## Redux subscription to manage local storage
+
+The rules of redux say that our [reducers should be pure](https://redux.js.org/basics/reducers#handling-actions) and do just one thing.
+
+If you're not familiar with the concept of pure functions, they must do the following..
+
+1. Return the same output given the same input.
+2. Have no side effects.
+
+So our reducers are not the best place to manage local storage of our auth token.
+Ideally our action creators should also just dispatch actions, nothing else. So using these for additional side effects like setting authentication headers is not the best solution here.
+
+Redux provides us with a [`store.subscribe`](https://redux.js.org/api/store#subscribelistener) listener that runs every time a state change occurs.
+
+We can use this listener to **_watch_** our store and set our auth token in local storage and axios headers accordingly.
+
+- if there is a token - store it in local storage and set the headers.
+- if there is no token - token is null - remove it from storage and delete the headers.
+
+The subscription can be seen in [client/src/store.js](https://github.com/bradtraversy/devconnector_2.0/blob/master/client/src/store.js)
+
+We also need to change our [client/src/utils/setAuthToken.js](https://github.com/bradtraversy/devconnector_2.0/blob/master/client/src/utils/setAuthToken.js) so it now handles both the setting of the token in local storage and in axios headers.
+
+With those two changes in place we can remove all setting of local storage from [client/src/reducers/auth.js](https://github.com/bradtraversy/devconnector_2.0/blob/master/client/src/reducers/auth.js). And remove setting of the token in axios headers from [client/src/actions/auth.js](https://github.com/bradtraversy/devconnector_2.0/blob/master/client/src/actions/auth.js). This helps keep our code predictable, manageable and ultimately bug free.
+
+# Quick Start 🚀
 
 ### Add a default.json file in config folder with the following
 
