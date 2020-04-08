@@ -145,6 +145,8 @@ We also need to change our [client/src/utils/setAuthToken.js](https://github.com
 
 With those two changes in place we can remove all setting of local storage from [client/src/reducers/auth.js](https://github.com/bradtraversy/devconnector_2.0/blob/master/client/src/reducers/auth.js). And remove setting of the token in axios headers from [client/src/actions/auth.js](https://github.com/bradtraversy/devconnector_2.0/blob/master/client/src/actions/auth.js). This helps keep our code predictable, manageable and ultimately bug free.
 
+---
+
 # Quick Start 🚀
 
 ### Add a default.json file in config folder with the following
@@ -190,6 +192,61 @@ NODE_ENV=production node server.js
 ```
 
 Check in browser on [http://localhost:5000/](http://localhost:5000/)
+
+### Deploy to Heroku
+
+If you followed the sensible advice above and included `config/default.json` `and config/production.json` in your .gitignore file, then pushing to Heroku will omit your config files from the push.  
+However, Heroku needs these files for a successful build.  
+So how to get them to Heroku without commiting them to GitHub?
+
+What I suggest you do is create a local only branch, lets call it _production_.
+
+```bash
+git checkout -b production
+```
+
+We can use this branch to deploy from, with our config files.
+
+Add the config file...
+
+```bash
+git add -f config/production.json
+```
+
+This will track the file in git on this branch only. **DON'T PUSH THE PRODUCTION BRANCH TO GITHUB**
+
+Commit...
+
+```bash
+git commit -m 'ready to deploy'
+```
+
+Create your Heroku project
+
+```bash
+heroku create
+```
+
+And push the local production branch to the remote heroku master branch.
+
+```bash
+git push heroku production:master
+```
+
+Now Heroku will have the config it needs to build the project.
+
+> **Don't forget to make sure your production database is not whitelisted in MongoDB Atlas, otherwise the database connection will fail and your app will crash.**
+
+After deployment you can delete the production branch if you like.
+
+```bash
+git checkout master
+git branch -D production
+```
+
+Or you can leave it to merge and push updates from another branch.
+
+---
 
 ## App Info
 
