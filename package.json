@@ -13,6 +13,7 @@
   "author": "Brad Traversy",
   "license": "MIT",
   "dependencies": {
+    "axios": "^0.19.2",
     "bcryptjs": "^2.4.3",
     "client": "file:client",
     "config": "^3.3.0",
