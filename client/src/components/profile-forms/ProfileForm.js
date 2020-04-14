@@ -39,6 +39,8 @@ const ProfileForm = ({
       for (const key in profile.social) {
         if (key in profileData) profileData[key] = profile.social[key];
       }
+      if (Array.isArray(profileData.skills))
+        profileData.skills = profileData.skills.join(', ');
       setFormData(profileData);
     }
   }, [loading, getCurrentProfile, profile]);
@@ -58,10 +60,10 @@ const ProfileForm = ({
     instagram
   } = formData;
 
-  const onChange = e =>
+  const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
-  const onSubmit = e => {
+  const onSubmit = (e) => {
     e.preventDefault();
     createProfile(formData, history, true);
   };
@@ -246,7 +248,7 @@ ProfileForm.propTypes = {
   profile: PropTypes.object.isRequired
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   profile: state.profile
 });
 
