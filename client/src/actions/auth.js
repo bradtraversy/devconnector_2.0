@@ -12,7 +12,7 @@ import {
 } from './types';
 
 // Load User
-export const loadUser = () => async dispatch => {
+export const loadUser = () => async (dispatch) => {
   try {
     const res = await axios.get('/api/auth');
 
@@ -28,7 +28,7 @@ export const loadUser = () => async dispatch => {
 };
 
 // Register User
-export const register = ({ name, email, password }) => async dispatch => {
+export const register = ({ name, email, password }) => async (dispatch) => {
   const config = {
     headers: {
       'Content-Type': 'application/json'
@@ -44,11 +44,12 @@ export const register = ({ name, email, password }) => async dispatch => {
       type: REGISTER_SUCCESS,
       payload: res.data
     });
+    dispatch(loadUser);
   } catch (err) {
     const errors = err.response.data.errors;
 
     if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+      errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
     }
 
     dispatch({
@@ -58,7 +59,7 @@ export const register = ({ name, email, password }) => async dispatch => {
 };
 
 // Login User
-export const login = (email, password) => async dispatch => {
+export const login = (email, password) => async (dispatch) => {
   const config = {
     headers: {
       'Content-Type': 'application/json'
@@ -80,7 +81,7 @@ export const login = (email, password) => async dispatch => {
     const errors = err.response.data.errors;
 
     if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+      errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
     }
 
     dispatch({
@@ -90,7 +91,7 @@ export const login = (email, password) => async dispatch => {
 };
 
 // Logout / Clear Profile
-export const logout = () => dispatch => {
+export const logout = () => (dispatch) => {
   dispatch({ type: CLEAR_PROFILE });
   dispatch({ type: LOGOUT });
 };
