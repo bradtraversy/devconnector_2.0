@@ -244,7 +244,15 @@ git checkout master
 git branch -D production
 ```
 
-Or you can leave it to merge and push updates from another branch.
+Or you can leave it to merge and push updates from another branch.  
+Make any changes you need on your master branch and merge those into your production branch.
+
+```bash
+git checkout production
+git merge master
+```
+
+Once merged you can push to heroku as above and your site will rebuild and be updated.
 
 ---
 
