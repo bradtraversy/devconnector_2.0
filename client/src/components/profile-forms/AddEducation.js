@@ -11,12 +11,19 @@ const AddEducation = ({ addEducation, history }) => {
     fieldofstudy: '',
     from: '',
     to: '',
+    current: false,
     description: ''
   });
 
-  const [current, setCurrent] = useState(false);
-
-  const { school, degree, fieldofstudy, from, to, description } = formData;
+  const {
+    school,
+    degree,
+    fieldofstudy,
+    from,
+    to,
+    description,
+    current
+  } = formData;
 
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -76,7 +83,9 @@ const AddEducation = ({ addEducation, history }) => {
               name="current"
               checked={current}
               value={current}
-              onChange={() => setCurrent(!current)}
+              onChange={() =>
+                setFormData({ ...formData, current: !formData.current })
+              }
             />{' '}
             Current School
           </p>
