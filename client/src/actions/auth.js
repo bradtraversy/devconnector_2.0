@@ -53,7 +53,7 @@ export const register = ({ name, email, password }) => async (dispatch) => {
     }
 
     dispatch({
-      type: REGISTER_FAIL
+      type: AUTH_ERROR
     });
   }
 };
@@ -85,7 +85,7 @@ export const login = (email, password) => async (dispatch) => {
     }
 
     dispatch({
-      type: LOGIN_FAIL
+      type: AUTH_ERROR
     });
   }
 };
