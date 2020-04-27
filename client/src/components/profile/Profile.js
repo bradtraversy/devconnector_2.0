@@ -18,7 +18,7 @@ const Profile = ({ getProfileById, profile: { profile }, auth, match }) => {
 */
   const nullProfile = !profile;
   useEffect(() => {
-    getProfileById(match.params.id);
+    if (nullProfile) getProfileById(match.params.id);
   }, [getProfileById, match.params.id, nullProfile]);
 
   return (
