@@ -5,20 +5,14 @@ const auth = require('../../middleware/auth');
 
 const Post = require('../../models/Post');
 const User = require('../../models/User');
+const checkObjectId = require('../../middleware/checkObjectId');
 
 // @route    POST api/posts
 // @desc     Create a post
 // @access   Private
 router.post(
   '/',
-  [
-    auth,
-    [
-      check('text', 'Text is required')
-        .not()
-        .isEmpty()
-    ]
-  ],
+  [auth, [check('text', 'Text is required').not().isEmpty()]],
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -61,14 +55,9 @@ router.get('/', auth, async (req, res) => {
 // @route    GET api/posts/:id
 // @desc     Get post by ID
 // @access   Private
-router.get('/:id', auth, async (req, res) => {
+router.get('/:id', [auth, checkObjectId], async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
-
-    // Check for ObjectId format and post
-    if (!req.params.id.match(/^[0-9a-fA-F]{24}$/) || !post) {
-      return res.status(404).json({ msg: 'Post not found' });
-    }
 
     res.json(post);
   } catch (err) {
@@ -81,14 +70,9 @@ router.get('/:id', auth, async (req, res) => {
 // @route    DELETE api/posts/:id
 // @desc     Delete a post
 // @access   Private
-router.delete('/:id', auth, async (req, res) => {
+router.delete('/:id', [auth, checkObjectId], async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
-
-    // Check for ObjectId format and post
-    if (!req.params.id.match(/^[0-9a-fA-F]{24}$/) || !post) {
-      return res.status(404).json({ msg: 'Post not found' });
-    }
 
     // Check user
     if (post.user.toString() !== req.user.id) {
@@ -108,12 +92,12 @@ router.delete('/:id', auth, async (req, res) => {
 // @route    PUT api/posts/like/:id
 // @desc     Like a post
 // @access   Private
-router.put('/like/:id', auth, async (req, res) => {
+router.put('/like/:id', [auth, checkObjectId], async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
 
     // Check if the post has already been liked
-    if (post.likes.some(like => like.user.toString() === req.user.id)) {
+    if (post.likes.some((like) => like.user.toString() === req.user.id)) {
       return res.status(400).json({ msg: 'Post already liked' });
     }
 
@@ -131,12 +115,12 @@ router.put('/like/:id', auth, async (req, res) => {
 // @route    PUT api/posts/unlike/:id
 // @desc     Unlike a post
 // @access   Private
-router.put('/unlike/:id', auth, async (req, res) => {
+router.put('/unlike/:id', [auth, checkObjectId], async (req, res) => {
   try {
     const post = await Post.findById(req.params.id);
 
     // Check if the post has already been liked
-    if (!post.likes.some(like => like.user.toString() === req.user.id)) {
+    if (!post.likes.some((like) => like.user.toString() === req.user.id)) {
       return res.status(400).json({ msg: 'Post has not yet been liked' });
     }
 
@@ -159,14 +143,7 @@ router.put('/unlike/:id', auth, async (req, res) => {
 // @access   Private
 router.post(
   '/comment/:id',
-  [
-    auth,
-    [
-      check('text', 'Text is required')
-        .not()
-        .isEmpty()
-    ]
-  ],
+  [auth, checkObjectId, [check('text', 'Text is required').not().isEmpty()]],
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -205,7 +182,7 @@ router.delete('/comment/:id/:comment_id', auth, async (req, res) => {
 
     // Pull out comment
     const comment = post.comments.find(
-      comment => comment.id === req.params.comment_id
+      (comment) => comment.id === req.params.comment_id
     );
     // Make sure comment exists
     if (!comment) {
