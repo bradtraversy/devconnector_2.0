@@ -133,7 +133,7 @@ router.get('/user/:user_id', async ({ params: { user_id } }, res) => {
     return res.json(profile);
   } catch (err) {
     console.error(err.message);
-    return res.status(400).json({ msg: 'Profile not found' });
+    return res.status(500).json({ msg: 'Server error' });
   }
 });
 
