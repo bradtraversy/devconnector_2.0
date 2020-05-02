@@ -123,13 +123,19 @@ router.get('/', async (req, res) => {
 // @access   Public
 router.get('/user/:user_id', async (req, res) => {
   try {
-    const profile = await Profile.findOne({
-      user: req.params.user_id
-    }).populate('user', ['name', 'avatar']);
+    // Check for ObjectId format
+    if (!req.params.user_id.match(/^[0-9a-fA-F]{24}$/)) {
+      return res.status(404).json({ msg: 'Profile not found' });
+    }
 
-    if (!profile) return res.status(400).json({ msg: 'Profile not found' });
+    const profile = await Profile.findOne({ user: req.params.user_id });
 
-    res.json(profile);
+    if (!profile) {
+      return res.status(400).json({ msg: 'Profile not found' });
+    }
+
+    // only populate from user document if profile exists
+    res.json(profile.populate('user', ['name', 'avatar']));
   } catch (err) {
     console.error(err.message);
     if (err.kind == 'ObjectId') {
