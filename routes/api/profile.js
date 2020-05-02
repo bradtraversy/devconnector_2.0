@@ -4,6 +4,7 @@ const config = require('config');
 const router = express.Router();
 const auth = require('../../middleware/auth');
 const { check, validationResult } = require('express-validator');
+const mongoose = require('mongoose');
 // bring in normalize to give us a proper url, regardless of what user entered
 const normalize = require('normalize-url');
 
@@ -40,12 +41,8 @@ router.post(
   [
     auth,
     [
-      check('status', 'Status is required')
-        .not()
-        .isEmpty(),
-      check('skills', 'Skills is required')
-        .not()
-        .isEmpty()
+      check('status', 'Status is required').not().isEmpty(),
+      check('skills', 'Skills is required').not().isEmpty()
     ]
   ],
   async (req, res) => {
@@ -76,7 +73,7 @@ router.post(
       bio,
       skills: Array.isArray(skills)
         ? skills
-        : skills.split(',').map(skill => ' ' + skill.trim()),
+        : skills.split(',').map((skill) => ' ' + skill.trim()),
       status,
       githubusername
     };
@@ -121,21 +118,22 @@ router.get('/', async (req, res) => {
 // @route    GET api/profile/user/:user_id
 // @desc     Get profile by user ID
 // @access   Public
-router.get('/user/:user_id', async (req, res) => {
+router.get('/user/:user_id', async ({ params: { user_id } }, res) => {
+  // check if the id is a valid ObjectId
+  if (!mongoose.Types.ObjectId.isValid(user_id))
+    return res.status(400).json({ msg: 'Invalid user ID' });
+
   try {
     const profile = await Profile.findOne({
-      user: req.params.user_id
+      user: user_id
     }).populate('user', ['name', 'avatar']);
 
     if (!profile) return res.status(400).json({ msg: 'Profile not found' });
 
-    res.json(profile);
+    return res.json(profile);
   } catch (err) {
     console.error(err.message);
-    if (err.kind == 'ObjectId') {
-      return res.status(400).json({ msg: 'Profile not found' });
-    }
-    res.status(500).send('Server Error');
+    return res.status(400).json({ msg: 'Profile not found' });
   }
 });
 
@@ -166,12 +164,8 @@ router.put(
   [
     auth,
     [
-      check('title', 'Title is required')
-        .not()
-        .isEmpty(),
-      check('company', 'Company is required')
-        .not()
-        .isEmpty(),
+      check('title', 'Title is required').not().isEmpty(),
+      check('company', 'Company is required').not().isEmpty(),
       check('from', 'From date is required and needs to be from the past')
         .not()
         .isEmpty()
@@ -228,7 +222,7 @@ router.delete('/experience/:exp_id', auth, async (req, res) => {
     const foundProfile = await Profile.findOne({ user: req.user.id });
 
     foundProfile.experience = foundProfile.experience.filter(
-      exp => exp._id.toString() !== req.params.exp_id
+      (exp) => exp._id.toString() !== req.params.exp_id
     );
 
     await foundProfile.save();
@@ -247,15 +241,9 @@ router.put(
   [
     auth,
     [
-      check('school', 'School is required')
-        .not()
-        .isEmpty(),
-      check('degree', 'Degree is required')
-        .not()
-        .isEmpty(),
-      check('fieldofstudy', 'Field of study is required')
-        .not()
-        .isEmpty(),
+      check('school', 'School is required').not().isEmpty(),
+      check('degree', 'Degree is required').not().isEmpty(),
+      check('fieldofstudy', 'Field of study is required').not().isEmpty(),
       check('from', 'From date is required and needs to be from the past')
         .not()
         .isEmpty()
@@ -311,7 +299,7 @@ router.delete('/education/:edu_id', auth, async (req, res) => {
   try {
     const foundProfile = await Profile.findOne({ user: req.user.id });
     foundProfile.education = foundProfile.education.filter(
-      edu => edu._id.toString() !== req.params.edu_id
+      (edu) => edu._id.toString() !== req.params.edu_id
     );
     await foundProfile.save();
     return res.status(200).json(foundProfile);
