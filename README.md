@@ -145,6 +145,11 @@ We also need to change our [client/src/utils/setAuthToken.js](https://github.com
 
 With those two changes in place we can remove all setting of local storage from [client/src/reducers/auth.js](https://github.com/bradtraversy/devconnector_2.0/blob/master/client/src/reducers/auth.js). And remove setting of the token in axios headers from [client/src/actions/auth.js](https://github.com/bradtraversy/devconnector_2.0/blob/master/client/src/actions/auth.js). This helps keep our code predictable, manageable and ultimately bug free.
 
+## Component reuse
+
+The EditProfile and CreateProfile have been reduced to one component [ProfileForm.js](https://github.com/bradtraversy/devconnector_2.0/blob/master/client/src/components/profile-forms/ProfileForm.js)  
+The majority of this logic came from the refactrored EditProfile Component.
+
 ---
 
 # Quick Start 🚀
@@ -186,6 +191,9 @@ npm run build
 ```
 
 ### Test production before deploy
+
+After running a build in the client 👆, cd into the root of the project.  
+And run...
 
 ```bash
 NODE_ENV=production node server.js
