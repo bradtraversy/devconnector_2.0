@@ -11,15 +11,9 @@ import ProfileGithub from './ProfileGithub';
 import { getProfileById } from '../../actions/profile';
 
 const Profile = ({ getProfileById, profile: { profile }, auth, match }) => {
-  /*
-   use a nullProfile boolean to safely add to useEffect
-   adding profile to useEffect would trigger the function
-   as profile is an object and object's are reference types
-*/
-  const nullProfile = !profile;
   useEffect(() => {
-    if (nullProfile) getProfileById(match.params.id);
-  }, [getProfileById, match.params.id, nullProfile]);
+    getProfileById(match.params.id);
+  }, [getProfileById, match.params.id]);
 
   return (
     <Fragment>
