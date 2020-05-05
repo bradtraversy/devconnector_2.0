@@ -4,9 +4,9 @@ const config = require('config');
 const router = express.Router();
 const auth = require('../../middleware/auth');
 const { check, validationResult } = require('express-validator');
-const mongoose = require('mongoose');
 // bring in normalize to give us a proper url, regardless of what user entered
 const normalize = require('normalize-url');
+const checkObjectId = require('../../middleware/checkObjectId');
 
 const Profile = require('../../models/Profile');
 const User = require('../../models/User');
@@ -117,24 +117,24 @@ router.get('/', async (req, res) => {
 // @route    GET api/profile/user/:user_id
 // @desc     Get profile by user ID
 // @access   Public
-router.get('/user/:user_id', async ({ params: { user_id } }, res) => {
-  // check if the id is a valid ObjectId
-  if (!mongoose.Types.ObjectId.isValid(user_id))
-    return res.status(400).json({ msg: 'Invalid user ID' });
+router.get(
+  '/user/:user_id',
+  checkObjectId('user_id'),
+  async ({ params: { user_id } }, res) => {
+    try {
+      const profile = await Profile.findOne({
+        user: user_id
+      }).populate('user', ['name', 'avatar']);
 
-  try {
-    const profile = await Profile.findOne({
-      user: user_id
-    }).populate('user', ['name', 'avatar']);
+      if (!profile) return res.status(400).json({ msg: 'Profile not found' });
 
-    if (!profile) return res.status(400).json({ msg: 'Profile not found' });
-
-    return res.json(profile);
-  } catch (err) {
-    console.error(err.message);
-    return res.status(500).json({ msg: 'Server error' });
+      return res.json(profile);
+    } catch (err) {
+      console.error(err.message);
+      return res.status(500).json({ msg: 'Server error' });
+    }
   }
-});
+);
 
 // @route    DELETE api/profile
 // @desc     Delete profile, user & posts
