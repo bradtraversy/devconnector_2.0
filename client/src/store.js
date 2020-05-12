@@ -17,10 +17,8 @@ const store = createStore(
 // set up a store subscription listener
 // to store the users token in localStorage
 
-// prevent auth error on first run of subscription
-let currentState = {
-  auth: { token: null, isAuthenticated: null, loading: true, user: null }
-};
+// initialize current state from redux store for subscription comparison
+let currentState = store.getState();
 
 store.subscribe(() => {
   // keep track of the previous and current state to compare changes
