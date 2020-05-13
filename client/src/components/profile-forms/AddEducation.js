@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from 'react';
-import { Link, withRouter } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { addEducation } from '../../actions/profile';
@@ -25,7 +25,7 @@ const AddEducation = ({ addEducation, history }) => {
     current
   } = formData;
 
-  const onChange = (e) =>
+  const onChange = e =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
   return (
@@ -38,7 +38,7 @@ const AddEducation = ({ addEducation, history }) => {
       <small>* = required field</small>
       <form
         className="form"
-        onSubmit={(e) => {
+        onSubmit={e => {
           e.preventDefault();
           addEducation(formData, history);
         }}
@@ -123,4 +123,4 @@ AddEducation.propTypes = {
   addEducation: PropTypes.func.isRequired
 };
 
-export default connect(null, { addEducation })(withRouter(AddEducation));
+export default connect(null, { addEducation })(AddEducation);
