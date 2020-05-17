@@ -88,13 +88,7 @@ export const createProfile = (
   edit = false
 ) => async dispatch => {
   try {
-    const config = {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    };
-
-    const res = await api.post('/profile', formData, config);
+    const res = await api.post('/profile', formData);
 
     dispatch({
       type: GET_PROFILE,
