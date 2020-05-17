@@ -154,12 +154,12 @@ With those two changes in place we can remove all setting of local storage from 
 The EditProfile and CreateProfile have been reduced to one component [ProfileForm.js](https://github.com/bradtraversy/devconnector_2.0/blob/master/client/src/components/profile-forms/ProfileForm.js)  
 The majority of this logic came from the refactrored EditProfile Component.
 
-## Log user out on token expiration
+## Log user out on token expiration 🔐
 
 If the Json Web Token expires then it should log the user out and end the authentication of their session.
 
 We can do this using a [axios interceptor](https://github.com/axios/axios#interceptors) together paired with creating an instance of axios.  
-The interceptor, well intercepts any response and checks the response from our api for a `'Token is not valid'` message.  
+The interceptor, well... intercepts any response and checks the response from our api for a `'Token is not valid'` message.  
 ie. the token has now expired and is no longer valid.  
 If such a message exists then we log out the user and clear the profile from redux state.
 
