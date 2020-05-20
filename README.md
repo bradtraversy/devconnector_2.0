@@ -110,7 +110,7 @@ to
 const id = uuidv4();
 ```
 
-## Addition of normalize-url package
+## Addition of normalize-url package 🌎
 
 Depending on what a user enters as their website or social links, we may not get a valid clickable url.
 For example a user may enter _**traversymedia.com**_ or _**www.traversymedia.com**_ which won't be a clickable valid url in the UI on the users profile page.
@@ -119,12 +119,12 @@ To solve this we brought in [normalize-url](https://www.npmjs.com/package/normal
 Regardless of what the user enters it will ammend the url accordingly to make it valid (assuming the site exists).
 You can see the use here in [routes/api/profile.js](https://github.com/bradtraversy/devconnector_2.0/blob/31e5318592b886add58923c751dba73274c711de/routes/api/profile.js#L71)
 
-## Fix broken links in gravatar
+## Fix broken links in gravatar 🔗
 
 There is an unresolved [issue](https://github.com/emerleite/node-gravatar/issues/47) with the [node-gravatar](https://github.com/emerleite/node-gravatar#readme) package, whereby the url is not valid. Fortunately we added normalize-url so we can use that to easily fix the issue. If you're not seeing Gravatar avatars showing in your app then most likely you need to implement this change.
 You can see the code use here in [routes/api/users.js](https://github.com/bradtraversy/devconnector_2.0/blob/master/routes/api/users.js#L44)
 
-## Redux subscription to manage local storage
+## Redux subscription to manage local storage 📥
 
 The rules of redux say that our [reducers should be pure](https://redux.js.org/basics/reducers#handling-actions) and do just one thing.
 
@@ -149,7 +149,7 @@ We also need to change our [client/src/utils/setAuthToken.js](https://github.com
 
 With those two changes in place we can remove all setting of local storage from [client/src/reducers/auth.js](https://github.com/bradtraversy/devconnector_2.0/blob/master/client/src/reducers/auth.js). And remove setting of the token in axios headers from [client/src/actions/auth.js](https://github.com/bradtraversy/devconnector_2.0/blob/master/client/src/actions/auth.js). This helps keep our code predictable, manageable and ultimately bug free.
 
-## Component reuse
+## Component reuse ♻️
 
 The EditProfile and CreateProfile have been reduced to one component [ProfileForm.js](https://github.com/bradtraversy/devconnector_2.0/blob/master/client/src/components/profile-forms/ProfileForm.js)  
 The majority of this logic came from the refactrored EditProfile Component.
