@@ -321,7 +321,7 @@ router.get('/github/:username', async (req, res) => {
       Authorization: `token ${config.get('githubToken')}`
     };
 
-    const gitHubResponse = await axios.get(uri, { headers });
+    const gitHubResponse = await axios.get(uri, headers);
     return res.json(gitHubResponse.data);
   } catch (err) {
     console.error(err.message);
