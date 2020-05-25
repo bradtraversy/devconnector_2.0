@@ -17,14 +17,14 @@ const PostSchema = new mongoose.Schema({
   likes: [
     {
       user: {
-        type: Schema.Types.ObjectId
+        type: mongoose.Schema.Types.ObjectId
       }
     }
   ],
   comments: [
     {
       user: {
-        type: Schema.Types.ObjectId
+        type: mongoose.Schema.Types.ObjectId
       },
       text: {
         type: String,
