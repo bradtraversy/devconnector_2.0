@@ -77,6 +77,12 @@ router.post(
         }
       );
     } catch (err) {
+      if (err.code === 11000) {
+        // checking if email already exists
+        res
+          .status(400)
+          .send({ errors: [{ msg: 'This E-mail already exists' }] });
+      }
       console.error(err.message);
       res.status(500).send('Server error');
     }
