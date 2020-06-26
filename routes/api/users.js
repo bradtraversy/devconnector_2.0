@@ -38,13 +38,18 @@ router.post(
           .status(400)
           .json({ errors: [{ msg: 'User already exists' }] });
       }
-
+      
+      // Using true option on gravatar for returning https url (false -> returns http) 
       const avatar = normalize(
-        gravatar.url(email, {
+        gravatar.url(
+          email,
+         {
           s: '200',
           r: 'pg',
           d: 'mm'
-        }),
+         },
+         true
+        ),
         { forceHttps: true }
       );
 
