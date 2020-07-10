@@ -83,9 +83,7 @@ const AddEducation = ({ addEducation, history }) => {
               name="current"
               checked={current}
               value={current}
-              onChange={() =>
-                setFormData({ ...formData, current: !formData.current })
-              }
+              onChange={() => setFormData({ ...formData, current: !current })}
             />{' '}
             Current School
           </p>
