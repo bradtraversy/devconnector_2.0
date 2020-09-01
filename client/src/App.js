@@ -21,7 +21,7 @@ const App = () => {
       store.dispatch(loadUser());
     }
 
-    // log user out from all tabs if they logged out in one tab or the token expires
+    // log user out from all tabs if they log out in one tab
     window.addEventListener('storage', () => {
       if (!localStorage.token) store.dispatch({ type: LOGOUT });
     });
