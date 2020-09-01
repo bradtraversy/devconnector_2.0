@@ -159,9 +159,9 @@ The majority of this logic came from the refactrored EditProfile Component.
 If the Json Web Token expires then it should log the user out and end the authentication of their session.
 
 We can do this using a [axios interceptor](https://github.com/axios/axios#interceptors) together paired with creating an instance of axios.  
-The interceptor, well... intercepts any response and checks the response from our api for a `'Token is not valid'` message.  
-ie. the token has now expired and is no longer valid.  
-If such a message exists then we log out the user and clear the profile from redux state.
+The interceptor, well... intercepts any response and checks the response from our api for a `401` status in the response.  
+ie. the token has now expired and is no longer valid or not valid token was sent.  
+If such a status exists then we log out the user and clear the profile from redux state.
 
 **You can see the implementation of the interceptor and axios instance in [utils/api.js](https://github.com/bradtraversy/devconnector_2.0/blob/master/client/src/utils/api.js)**
 
