@@ -152,7 +152,9 @@ With those two changes in place we can remove all setting of local storage from 
 ## Component reuse ♻️
 
 The EditProfile and CreateProfile have been reduced to one component [ProfileForm.js](https://github.com/bradtraversy/devconnector_2.0/blob/master/client/src/components/profile-forms/ProfileForm.js)  
-The majority of this logic came from the refactrored EditProfile Component.
+The majority of this logic came from the refactrored EditProfile Component, which was initially changed to fix the issues with the use of useEffect we see in this component.
+
+If you want to address the linter warnings in EditProfile then this is the component you are looking for.
 
 ## Log user out on token expiration 🔐
 
