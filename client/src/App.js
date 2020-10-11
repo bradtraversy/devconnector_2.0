@@ -4,6 +4,7 @@ import Navbar from './components/layout/Navbar';
 import Landing from './components/layout/Landing';
 import Routes from './components/routing/Routes';
 import { LOGOUT } from './actions/types';
+import AuthRoutes from './components/routing/AuthRoutes';
 
 // Redux
 import { Provider } from 'react-redux';
@@ -33,7 +34,7 @@ const App = () => {
         <Fragment>
           <Navbar />
           <Switch>
-            <Route exact path="/" component={Landing} />
+            <AuthRoutes exact path="/" component={Landing} />
             <Route component={Routes} />
           </Switch>
         </Fragment>
