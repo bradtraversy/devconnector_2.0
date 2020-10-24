@@ -68,7 +68,10 @@ router.post(
       user: req.user.id,
       company,
       location,
-      website: website && website !== '' ? normalize(website, { forceHttps: true }) : '',
+      website:
+        website && website !== ''
+          ? normalize(website, { forceHttps: true })
+          : '',
       bio,
       skills: Array.isArray(skills)
         ? skills
@@ -212,6 +215,38 @@ router.put(
   }
 );
 
+//@route PUT api/profile/experience/:experience_id
+//@desc Edit user experience
+//@access private
+router.put('/experience/:experience_id', auth, async (req, res) => {
+  const { title, company, location, from, to, current, description } = req.body;
+
+  const newExp = {};
+
+  if (title) newExp.title = title;
+  if (company) newExp.company = company;
+  if (location) newExp.location = location;
+  if (from) newExp.from = from;
+  if (to) newExp.to = to;
+  if (current) newExp.current = current;
+  if (description) newExp.description = description;
+
+  try {
+    const profile = await Profile.findOne({ user: req.user.id });
+    const expIndex = profile.experience
+      .map((exp) => exp.id)
+      .indexOf(req.params.experience_id);
+    for (let key of Object.keys(newExp)) {
+      profile.experience[expIndex][key] = newExp[key];
+    }
+    await profile.save();
+    res.json(profile);
+  } catch (error) {
+    console.error(error.message);
+    res.status(400).json({ msg: 'Server Error' });
+  }
+});
+
 // @route    DELETE api/profile/experience/:exp_id
 // @desc     Delete experience from profile
 // @access   Private
@@ -289,6 +324,46 @@ router.put(
     }
   }
 );
+
+//@route PUT api/profile/education/:edu_id
+//@desc Edit user education
+//@access private
+router.put('/education/:edu_id', auth, async (req, res) => {
+  const {
+    school,
+    degree,
+    fieldofstudy,
+    from,
+    to,
+    current,
+    description
+  } = req.body;
+
+  const newedu = {};
+
+  if (school) newedu.school = school;
+  if (degree) newedu.degree = degree;
+  if (fieldofstudy) newedu.fieldofstudy = fieldofstudy;
+  if (from) newedu.from = from;
+  if (to) newedu.to = to;
+  if (current) newedu.current = current;
+  if (description) newedu.description = description;
+
+  try {
+    const profile = await Profile.findOne({ user: req.user.id });
+    const expIndex = profile.education
+      .map((exp) => exp.id)
+      .indexOf(req.params.edu_id);
+    for (let key of Object.keys(newedu)) {
+      profile.education[expIndex][key] = newedu[key];
+    }
+    await profile.save();
+    res.json(profile);
+  } catch (error) {
+    console.error(error.message);
+    res.status(400).json({ msg: 'Server Error' });
+  }
+});
 
 // @route    DELETE api/profile/education/:edu_id
 // @desc     Delete education from profile
