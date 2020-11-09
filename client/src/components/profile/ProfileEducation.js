@@ -7,7 +7,9 @@ const ProfileEducation = ({
 }) => (
   <div>
     <h3 className="text-dark">{school}</h3>
-    <p>{`${formatDate(from)} - ${to === null ? 'Now' : formatDate(to)}`}</p>
+    <p>
+      {formatDate(from)} - {to === null ? 'Now' : formatDate(to)}
+    </p>
     <p>
       <strong>Degree: </strong> {degree}
     </p>

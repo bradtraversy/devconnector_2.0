@@ -7,7 +7,9 @@ const ProfileExperience = ({
 }) => (
   <div>
     <h3 className="text-dark">{company}</h3>
-    <p>{`${formatDate(from)} - ${to === null ? 'Now' : formatDate(to)}`}</p>
+    <p>
+      {formatDate(from)} - {to === null ? 'Now' : formatDate(to)}
+    </p>
     <p>
       <strong>Position: </strong> {title}
     </p>
