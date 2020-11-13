@@ -272,7 +272,7 @@ Check in browser on [http://localhost:5000/](http://localhost:5000/)
 
 ### Deploy to Heroku
 
-If you followed the sensible advice above and included `config/default.json` `and config/production.json` in your .gitignore file, then pushing to Heroku will omit your config files from the push.  
+If you followed the sensible advice above and included `config/default.json` and `config/production.json` in your .gitignore file, then pushing to Heroku will omit your config files from the push.  
 However, Heroku needs these files for a successful build.  
 So how to get them to Heroku without commiting them to GitHub?
 
