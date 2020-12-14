@@ -26,21 +26,11 @@ const ProfileTop = ({
           </a>
         )}
         {social &&
-          Object.entries(social).map((link) => {
-            let key = link[0];
-            let value = link[1];
-
-            return (
-              <a
-                key={key}
-                href={value}
-                target='_blank'
-                rel='noopener noreferrer'
-              >
-                <i className={`fab fa-${key} fa-2x`}></i>
-              </a>
-            );
-          })}
+          Object.entries(social).map(([key, value]) => (
+            <a key={key} href={value} target='_blank' rel='noopener noreferrer'>
+              <i className={`fab fa-${key} fa-2x`}></i>
+            </a>
+          ))}
       </div>
     </div>
   );
