@@ -169,30 +169,10 @@ router.put(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const {
-      title,
-      company,
-      location,
-      from,
-      to,
-      current,
-      description
-    } = req.body;
-
-    const newExp = {
-      title,
-      company,
-      location,
-      from,
-      to,
-      current,
-      description
-    };
-
     try {
       const profile = await Profile.findOne({ user: req.user.id });
 
-      profile.experience.unshift(newExp);
+      profile.experience.unshift(req.body);
 
       await profile.save();
 
@@ -242,30 +222,10 @@ router.put(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const {
-      school,
-      degree,
-      fieldofstudy,
-      from,
-      to,
-      current,
-      description
-    } = req.body;
-
-    const newEdu = {
-      school,
-      degree,
-      fieldofstudy,
-      from,
-      to,
-      current,
-      description
-    };
-
     try {
       const profile = await Profile.findOne({ user: req.user.id });
 
-      profile.education.unshift(newEdu);
+      profile.education.unshift(req.body);
 
       await profile.save();
 
