@@ -7,38 +7,34 @@ const Post = require('../../models/Post');
 const User = require('../../models/User');
 const checkObjectId = require('../../middleware/checkObjectId');
 
+const {
+  postRules,
+  commentRules,
+  validator
+} = require('../../middleware/bodyValidation');
+
 // @route    POST api/posts
 // @desc     Create a post
 // @access   Private
-router.post(
-  '/',
-  auth,
-  check('text', 'Text is required').not().isEmpty(),
-  async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
+router.post('/', auth, postRules(), validator, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id).select('-password');
 
-    try {
-      const user = await User.findById(req.user.id).select('-password');
+    const newPost = new Post({
+      text: req.body.text,
+      name: user.name,
+      avatar: user.avatar,
+      user: req.user.id
+    });
 
-      const newPost = new Post({
-        text: req.body.text,
-        name: user.name,
-        avatar: user.avatar,
-        user: req.user.id
-      });
+    const post = await newPost.save();
 
-      const post = await newPost.save();
-
-      res.json(post);
-    } catch (err) {
-      console.error(err.message);
-      res.status(500).send('Server Error');
-    }
+    res.json(post);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
   }
-);
+});
 
 // @route    GET api/posts
 // @desc     Get all posts
@@ -154,13 +150,9 @@ router.post(
   '/comment/:id',
   auth,
   checkObjectId('id'),
-  check('text', 'Text is required').notEmpty(),
+  commentRules(),
+  validator,
   async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-
     try {
       const user = await User.findById(req.user.id).select('-password');
       const post = await Post.findById(req.params.id);
