@@ -1,5 +1,9 @@
 node_modules/
+npm-debug.log
 config/production.json
 config/default.json
 client/build
 client/.eslintcache
+client/node_modules/
+client/npm-debug.log
+
