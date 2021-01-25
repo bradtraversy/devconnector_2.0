@@ -1,5 +1,4 @@
 FROM node:latest as node
-
 # Create app directory
 WORKDIR /usr/src/app
 
@@ -7,24 +6,23 @@ WORKDIR /usr/src/app
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 # where available (npm@5+)
 COPY package*.json ./
-RUN rm -rf node_modules
+COPY client/package*.json ./client/
+COPY client/public/ ./client/public/
+COPY client/src/ ./client/src/
+COPY .env ./
+#RUN rm -rf node_modules
 RUN npm install
-#RUN 'cd client ; npm install ; npm run build ; cd ..'
 
 WORKDIR /usr/src/app/client/
-COPY package*.json ./
-#RUN cd client
-RUN rm -rf node_modules
+#RUN rm -rf node_modules
 RUN npm install
-#RUN npm ci --only=production
-RUN npm run build:production
-#RUN cd ..
-#RUN NODE_ENV=production node server.js
+RUN npm run build
 # If you are building your code for production
 # RUN npm ci --only=production
 
 # Bundle app source
 COPY . .
 
-EXPOSE 5000
-CMD [ "NODE_ENV=production", "node", "server.js" ]
+EXPOSE 8000
+#CMD [ "NODE_ENV=production", "node", "server.js" ]
+CMD [ "node", "server.js" ]
