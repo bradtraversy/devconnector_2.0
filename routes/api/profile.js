@@ -68,7 +68,7 @@ router.post(
           : '',
       skills: Array.isArray(skills)
         ? skills
-        : skills.split(',').map((skill) => String(skill.trim())),
+        : skills.split(',').map((skill) => ' ' + skill.trim()),
       ...rest
     };
 
