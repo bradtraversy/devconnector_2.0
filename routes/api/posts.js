@@ -98,6 +98,55 @@ router.delete('/:id', [auth, checkObjectId('id')], async (req, res) => {
   }
 });
 
+// @route    UPDATE api/posts/:id
+// @desc     Update a post
+// @access   Private
+router.patch(
+  '/:id',
+  [auth, checkObjectId('id')],
+  check('text', 'Text is required').not().isEmpty(),
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const post = await Post.findById(req.params.id);
+
+    // Make sure post exists
+    if (!post) {
+      return res.status(404).json({ msg: 'Post does not exist' });
+    }
+    // Check user
+    if (post.user.toString() !== req.user.id) {
+      return res.status(401).json({ msg: 'User not authorized' });
+    }
+
+    // destructure the request
+    const {
+      text
+    } = req.body;
+
+    // build a post
+    const postFields = {
+      post: req.params.id,
+      text: text
+    };
+
+    try {
+      let post = await Post.findOneAndUpdate(
+        { _id: req.params.id },
+        { $set: postFields },
+        { new: true }
+      );
+      return res.json(post);
+    } catch (err) {
+      console.error(err.message);
+      return res.status(500).send('Server Error');
+    }
+  }
+);
+
 // @route    PUT api/posts/like/:id
 // @desc     Like a post
 // @access   Private
@@ -211,6 +260,65 @@ router.delete('/comment/:id/:comment_id', auth, async (req, res) => {
     await post.save();
 
     return res.json(post.comments);
+  } catch (err) {
+    console.error(err.message);
+    return res.status(500).send('Server Error');
+  }
+});
+
+
+// @route    UPDATE api/posts/comment/:id/:comment_id
+// @desc     Update comment
+// @access   Private
+router.patch('/comment/:id/:comment_id',
+[auth, checkObjectId('id'), checkObjectId('comment_id')],
+check('text', 'Text is required').not().isEmpty(),
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+
+    const post = await Post.findById(req.params.id);
+
+    // Pull out comment
+    const comment = post.comments.find(
+      (comment) => comment.id === req.params.comment_id
+    );
+
+    // Make sure comment exists
+    if (!comment) {
+      return res.status(404).json({ msg: 'Comment does not exist' });
+    }
+    // Check user
+    if (comment.user.toString() !== req.user.id) {
+      return res.status(401).json({ msg: 'User not authorized' });
+    }
+
+    // destructure the request
+    const {text} = req.body;
+
+try{
+    // Update particular comment in the post
+    const updatedPost = await Post.findOneAndUpdate({
+      _id: req.params.id,
+      comments: {
+          $elemMatch: {
+              _id: req.params.comment_id
+          }
+      }
+  }, {
+      $set: {
+          'comments.$.text': text
+      }
+  }, {new: true});
+
+  // pull out updated comment only
+  const updatedComment = updatedPost.comments.filter(
+      ({ id }) => id === req.params.comment_id
+    );
+
+    return res.json(updatedComment[0]);
   } catch (err) {
     console.error(err.message);
     return res.status(500).send('Server Error');

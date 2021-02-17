@@ -5,10 +5,14 @@ import {
   POST_ERROR,
   UPDATE_LIKES,
   DELETE_POST,
+  EDIT_POST,
+  UPDATE_POST,
   ADD_POST,
   GET_POST,
   ADD_COMMENT,
-  REMOVE_COMMENT
+  REMOVE_COMMENT,
+  EDIT_COMMENT,
+  UPDATE_COMMENT
 } from './types';
 
 // Get posts
@@ -73,6 +77,33 @@ export const deletePost = id => async dispatch => {
     });
 
     dispatch(setAlert('Post Removed', 'success'));
+  } catch (err) {
+    dispatch({
+      type: POST_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status }
+    });
+  }
+};
+
+// Edit post
+export const editPost = id => async dispatch => {
+    dispatch({
+      type: EDIT_POST,
+      payload: id
+    });
+};
+
+// Update post
+export const updatePost = (id,formData) => async dispatch => {
+  try {
+    const res = await api.patch(`/posts/${id}`, formData);
+
+    dispatch({
+      type: UPDATE_POST,
+      payload: res.data
+    });
+
+    dispatch(setAlert('Post Updated', 'success'));
   } catch (err) {
     dispatch({
       type: POST_ERROR,
@@ -153,4 +184,32 @@ export const deleteComment = (postId, commentId) => async dispatch => {
       payload: { msg: err.response.statusText, status: err.response.status }
     });
   }
+};
+
+
+// Edit comment
+export const editComment = id => async dispatch => {
+  dispatch({
+    type: EDIT_COMMENT,
+    payload: id
+  });
+};
+
+// Update comment
+export const updateComment = (post_id,comment_id,formData) => async dispatch => {
+try {
+  const res = await api.patch(`/posts/comment/${post_id}/${comment_id}`, formData);
+
+  dispatch({
+    type: UPDATE_COMMENT,
+    payload: res.data
+  });
+
+  dispatch(setAlert('Comment Updated', 'success'));
+} catch (err) {
+  dispatch({
+    type: POST_ERROR,
+    payload: { msg: err.response.statusText, status: err.response.status }
+  });
+}
 };

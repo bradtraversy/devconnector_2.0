@@ -23,6 +23,6 @@ RUN npm run build
 # Bundle app source
 COPY . .
 
-EXPOSE 8000
+EXPOSE 5000
 #CMD [ "NODE_ENV=production", "node", "server.js" ]
 CMD [ "node", "server.js" ]
