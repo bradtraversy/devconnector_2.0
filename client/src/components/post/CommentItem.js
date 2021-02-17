@@ -78,6 +78,7 @@ CommentItem.propTypes = {
   commentEdit: PropTypes.object.isRequired,
 };
 
+
 const mapStateToProps = (state) => ({
   auth: state.auth,
   commentEdit: state.post.edit_comment
