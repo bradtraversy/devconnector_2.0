@@ -14,8 +14,9 @@ COPY .env ./
 RUN npm install
 
 WORKDIR /usr/src/app/client/
-#RUN rm -rf node_modules
+RUN rm -rf node_modules
 RUN npm install
+RUN rm -rf client
 RUN npm run build
 # If you are building your code for production
 # RUN npm ci --only=production
