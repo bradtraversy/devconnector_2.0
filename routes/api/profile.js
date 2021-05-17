@@ -88,7 +88,12 @@ router.post(
       let profile = await Profile.findOneAndUpdate(
         { user: req.user.id },
         { $set: profileFields },
-        { new: true, upsert: true, setDefaultsOnInsert: true }
+        {
+          new: true,
+          upsert: true,
+          useFindAndModify: false,
+          setDefaultsOnInsert: true
+        }
       );
       return res.json(profile);
     } catch (err) {
