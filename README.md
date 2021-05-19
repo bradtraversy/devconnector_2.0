@@ -1,4 +1,4 @@
-# DevConnector 2.0
+# DevConnector_2.0
 
 > Social network for developers
 
@@ -171,22 +171,22 @@ Creating an instance of axios also cleans up our action creators in [actions/aut
 
 Note that implementing this change also requires that you use the updated code in [utils/setAuthToken.js](https://github.com/bradtraversy/devconnector_2.0/blob/master/client/src/utils/setAuthToken.js)
 Which also in turn depends on [utils/api.js](https://github.com/bradtraversy/devconnector_2.0/blob/master/client/src/utils/api.js)
-I would also recommending updating to use a [ redux subscription  ](https://github.com/bradtraversy/devconnector_2.0#redux-subscription-to-manage-local-storage-) to mange setting of the auth token in headers and local storage.
-
+I would also recommending updating to use a [ redux subscription ](https://github.com/bradtraversy/devconnector_2.0#redux-subscription-to-manage-local-storage-) to mange setting of the auth token in headers and local storage.
 
 ## Remove Moment 🗑️
 
-As some of you may be aware, [Moment.js](https://www.npmjs.com/package/moment) which [ react-moment ](https://www.npmjs.com/package/react-moment) depends on has since become *legacy code*.\
+As some of you may be aware, [Moment.js](https://www.npmjs.com/package/moment) which [ react-moment ](https://www.npmjs.com/package/react-moment) depends on has since become _legacy code_.\
 The maintainers of Moment.js now recommend finding an alternative to their package.
 
 > Moment.js is a legacy project, now in maintenance mode.\
- In most cases, you should choose a different library.\
- For more details and recommendations, please see Project Status in the docs.\
- Thank you.
+>  In most cases, you should choose a different library.\
+>  For more details and recommendations, please see Project Status in the docs.\
+>  Thank you.
 
 Some of you in the course have been having problems installing both packages and meeting peer dependencies.\
  We can instead use the browsers built in [Intl](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl) API.\
  First create a [ utils/formatDate.js ](https://github.com/bradtraversy/devconnector_2.0/blob/master/client/src/utils/formatDate.js) file, with the following code...
+
 ```js
 function formatDate(date) {
   return new Intl.DateTimeFormat().format(new Date(date));
@@ -196,10 +196,13 @@ export default formatDate;
 ```
 
 Then in our [Education.js](https://github.com/bradtraversy/devconnector_2.0/blob/master/client/src/components/dashboard/Education.js) component, import the new function...
+
 ```js
 import formatDate from '../../utils/formatDate';
 ```
+
 And use it instead of Moment...
+
 ```jsx
 <td>
   {formatDate(edu.from)} - {edu.to ? formatDate(edu.to) : 'Now'}
@@ -208,6 +211,7 @@ And use it instead of Moment...
 
 So wherever you use `<Moment />` you can change to use the `formatDate` function.\
 Files to change would be...
+
 - [Education.js](https://github.com/bradtraversy/devconnector_2.0/blob/master/client/src/components/dashboard/Education.js)
 - [Experience.js](https://github.com/bradtraversy/devconnector_2.0/blob/master/client/src/components/dashboard/Experience.js)
 - [CommentItem.js](https://github.com/bradtraversy/devconnector_2.0/blob/master/client/src/components/post/CommentItem.js)
@@ -216,8 +220,6 @@ Files to change would be...
 - [ProfileExperience.js](https://github.com/bradtraversy/devconnector_2.0/blob/master/client/src/components/profile/ProfileExperience.js)
 
 If you're updating your project you will now be able to uninstall **react-moment** and **moment** as project dependencies.
-
-
 
 ---
 
@@ -264,11 +266,14 @@ npm run build
 After running a build in the client 👆, cd into the root of the project.  
 And run...
 
-Linux/Unix 
+Linux/Unix
+
 ```bash
 NODE_ENV=production node server.js
 ```
-Windows Cmd Prompt or Powershell 
+
+Windows Cmd Prompt or Powershell
+
 ```bash
 $env:NODE_ENV="production"
 node server.js
