@@ -12,7 +12,7 @@ import Profile from '../profile/Profile';
 import Posts from '../posts/Posts';
 import Post from '../post/Post';
 import NotFound from '../layout/NotFound';
-import PrivateRoute from '../routing/PrivateRoute';
+import PrivateRoute from './PrivateRoute';
 
 const Routes = props => {
   return (
