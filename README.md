@@ -15,7 +15,7 @@ After completing the course you may want to look through this branch and play ab
 
 ## Changes to GitHub API authentication
 
-Since the course was published, GitHub has [depreciated authentication via URL query parameters](https://developer.github.com/changes/2019-11-05-deprecated-passwords-and-authorizations-api/#authenticating-using-query-parameters)
+Since the course was published, GitHub has [deprecated authentication via URL query parameters](https://developer.github.com/changes/2019-11-05-deprecated-passwords-and-authorizations-api/#authenticating-using-query-parameters)
 You can get an access token by following [these instructions](https://help.github.com/en/github/authenticating-to-github/creating-a-personal-access-token-for-the-command-line)
 For this app we don't need to add any permissions so don't select any in the _scopes_.
 **DO NOT SHARE ANY TOKENS THAT HAVE PERMISSIONS**
@@ -46,9 +46,9 @@ const options = {
 };
 ```
 
-### npm package request depreciated
+### npm package request deprecated
 
-As of 11th February 2020 [request](https://www.npmjs.com/package/request) has been depreciated and is no longer maintained.
+As of 11th February 2020 [request](https://www.npmjs.com/package/request) has been deprecated and is no longer maintained.
 We already use [axios](https://www.npmjs.com/package/axios) in the client so we can easily change the above fetching of a users GitHub repositories to use axios.
 
 Install axios in the root of the project
