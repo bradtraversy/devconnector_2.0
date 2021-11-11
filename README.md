@@ -203,7 +203,7 @@ import formatDate from '../../utils/formatDate';
 
 And use it instead of Moment...
 
-```javascriptreact
+```jsx
 <td>
   {formatDate(edu.from)} - {edu.to ? formatDate(edu.to) : 'Now'}
 </td>
@@ -220,6 +220,48 @@ Files to change would be...
 - [ProfileExperience.js](https://github.com/bradtraversy/devconnector_2.0/blob/master/client/src/components/profile/ProfileExperience.js)
 
 If you're updating your project you will now be able to uninstall **react-moment** and **moment** as project dependencies.
+
+## React Router V6 🧭
+
+Since the course was released [React Router](https://reactrouter.com) has been updated to version 6
+which includes some breaking changes.
+You can see the official migration guide from version 5 [ here ](https://reactrouter.com/docs/en/v6/upgrading/v5).
+
+### To summarize the changes to the course code
+
+Instead of a `<Switch />` we now use a `<Routes />` component.
+
+The `<Route />` component no longer receives a **_component_** prop, instead we
+pass a **_element_** prop which should be a React element i.e. JSX. Routing is
+also now relative to the component.
+
+For redirection and Private routing we can no longer use `<Redirect />`, we now
+have available a `<Navigate />` component.
+
+We no longer have access to the **_match_** and **_history_** objects in our
+component props. Instead of the match object for routing parameters we can use
+the [**useParams**](https://reactrouter.com/docs/en/v6/api#useparams) hook, and in place of using the history object to _push_
+onto the router we can use the [**useNavigate**](https://reactrouter.com/docs/en/v6/api#usenavigate) hook.
+
+The above changes do actually clean up the routing considerably with all
+application routing in one place in [App.js](client/src/App.js).
+Our [PrivateRoute](client/src/components/routing/PrivateRoute.js) is a good deal
+simpler now and no longer needs to use a render prop.
+
+With moving all of the routing to App.js this did affect the styling as all
+routes needed to be inside the original `<section className="container">`.
+To solve this each page component in App.js (any child of a `<Route />`) gets
+wrapped in it's own `<section className="container">`, So we no longer need that
+in App.js. In most cases this just replaces the outer `<Fragment />` in the
+component.
+
+The styling also affected the [ `<Alert />`
+](client/src/components/layout/Alert.js) component as this will show in
+addition to other page components adding it's own `<section>` would mean extra
+content shift when the alerts show. To solve this the alerts have been given
+their own styling so they are `position: fixed;` and we get no content shift,
+which additionally makes for a smoother UI with the alerts popping up in the top
+right of the screen.
 
 ---
 
