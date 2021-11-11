@@ -1,12 +1,11 @@
 import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 const Landing = ({ isAuthenticated }) => {
-  const navigate = useNavigate();
   if (isAuthenticated) {
-    navigate('/dashboard');
+    return <Navigate to="/dashboard" />;
   }
 
   return (

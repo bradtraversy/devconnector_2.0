@@ -14,6 +14,7 @@ import Profile from './components/profile/Profile';
 import Posts from './components/posts/Posts';
 import Post from './components/post/Post';
 import NotFound from './components/layout/NotFound';
+import PrivateRoute from './components/routing/PrivateRoute';
 import { LOGOUT } from './actions/types';
 
 // Redux
@@ -50,13 +51,31 @@ const App = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/profiles" element={<Profiles />} />
             <Route path="/profile/:id" element={<Profile />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/create-profile" element={<ProfileForm />} />
-            <Route path="/edit-profile" element={<ProfileForm />} />
-            <Route path="/add-experience" element={<AddExperience />} />
-            <Route path="/add-education" elemtn={<AddEducation />} />
-            <Route path="/posts" element={<Posts />} />
-            <Route path="/posts/:id" element={<Post />} />
+            <Route
+              path="/dashboard"
+              element={<PrivateRoute component={Dashboard} />}
+            />
+            <Route
+              path="/create-profile"
+              element={<PrivateRoute component={ProfileForm} />}
+            />
+            <Route
+              path="/edit-profile"
+              element={<PrivateRoute component={ProfileForm} />}
+            />
+            <Route
+              path="/add-experience"
+              element={<PrivateRoute component={AddExperience} />}
+            />
+            <Route
+              path="/add-education"
+              elemtn={<PrivateRoute component={AddEducation} />}
+            />
+            <Route path="/posts" element={<PrivateRoute component={Posts} />} />
+            <Route
+              path="/posts/:id"
+              element={<PrivateRoute component={Post} />}
+            />
             <Route element={<NotFound />} />
           </Routes>
         </section>
