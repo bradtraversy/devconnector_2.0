@@ -1,8 +1,19 @@
-import React, { Fragment, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Navbar from './components/layout/Navbar';
 import Landing from './components/layout/Landing';
-import Routes from './components/routing/Routes';
+import Register from './components/auth/Register';
+import Login from './components/auth/Login';
+import Alert from './components/layout/Alert';
+import Dashboard from './components/dashboard/Dashboard';
+import ProfileForm from './components/profile-forms/ProfileForm';
+import AddExperience from './components/profile-forms/AddExperience';
+import AddEducation from './components/profile-forms/AddEducation';
+import Profiles from './components/profiles/Profiles';
+import Profile from './components/profile/Profile';
+import Posts from './components/posts/Posts';
+import Post from './components/post/Post';
+import NotFound from './components/layout/NotFound';
 import { LOGOUT } from './actions/types';
 
 // Redux
@@ -30,13 +41,25 @@ const App = () => {
   return (
     <Provider store={store}>
       <Router>
-        <Fragment>
-          <Navbar />
-          <Switch>
-            <Route exact path="/" component={Landing} />
-            <Route component={Routes} />
-          </Switch>
-        </Fragment>
+        <Navbar />
+        <section className="container">
+          <Alert />
+          <Routes>
+            <Route path="/" element={<Landing />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/profiles" element={<Profiles />} />
+            <Route path="/profile/:id" element={<Profile />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/create-profile" element={<ProfileForm />} />
+            <Route path="/edit-profile" element={<ProfileForm />} />
+            <Route path="/add-experience" element={<AddExperience />} />
+            <Route path="/add-education" elemtn={<AddEducation />} />
+            <Route path="/posts" element={<Posts />} />
+            <Route path="/posts/:id" element={<Post />} />
+            <Route element={<NotFound />} />
+          </Routes>
+        </section>
       </Router>
     </Provider>
   );
