@@ -229,14 +229,14 @@ You can see the official migration guide from version 5 [ here ](https://reactro
 
 ### To summarize the changes to the course code
 
-Instead of a `<Switch />` we now use a `<Routes />` component.
+Instead of a `<Switch />` we now use a [ `<Routes />` ](https://reactrouter.com/docs/en/v6/api#routes-and-route) component.
 
-The `<Route />` component no longer receives a **_component_** prop, instead we
+The [ `<Route />` ](https://reactrouter.com/docs/en/v6/api#routes-and-route) component no longer receives a **_component_** prop, instead we
 pass a **_element_** prop which should be a React element i.e. JSX. Routing is
 also now relative to the component.
 
 For redirection and Private routing we can no longer use `<Redirect />`, we now
-have available a `<Navigate />` component.
+have available a [ `<Navigate />` ](https://reactrouter.com/docs/en/v6/api#navigate) component.
 
 We no longer have access to the **_match_** and **_history_** objects in our
 component props. Instead of the match object for routing parameters we can use
@@ -259,7 +259,7 @@ The styling also affected the [ `<Alert />`
 ](client/src/components/layout/Alert.js) component as this will show in
 addition to other page components adding it's own `<section>` would mean extra
 content shift when the alerts show. To solve this the alerts have been given
-their own styling so they are `position: fixed;` and we get no content shift,
+their [ own styling ](https://github.com/bradtraversy/devconnector_2.0/blob/c5b1fc48ccfecf30b6ed85f228a337f82d93e3f9/client/src/App.css#L579) so they are `position: fixed;` and we get no content shift,
 which additionally makes for a smoother UI with the alerts popping up in the top
 right of the screen.
 
