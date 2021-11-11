@@ -22,8 +22,7 @@ const initialState = {
 const ProfileForm = ({
   profile: { profile, loading },
   createProfile,
-  getCurrentProfile,
-  history
+  getCurrentProfile
 }) => {
   const [formData, setFormData] = useState(initialState);
 
@@ -73,7 +72,7 @@ const ProfileForm = ({
   };
 
   return (
-    <Fragment>
+    <section className="container">
       <h1 className="large text-primary">
         {creatingProfile ? 'Create Your Profile' : 'Edit Your Profile'}
       </h1>
@@ -247,7 +246,7 @@ const ProfileForm = ({
           Go Back
         </Link>
       </form>
-    </Fragment>
+    </section>
   );
 };
 
