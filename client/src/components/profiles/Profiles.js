@@ -11,19 +11,19 @@ const Profiles = ({ getProfiles, profile: { profiles, loading } }) => {
   }, [getProfiles]);
 
   return (
-    <Fragment>
+    <section className="container">
       {loading ? (
         <Spinner />
       ) : (
         <Fragment>
-          <h1 className='large text-primary'>Developers</h1>
-          <p className='lead'>
-            <i className='fab fa-connectdevelop' /> Browse and connect with
+          <h1 className="large text-primary">Developers</h1>
+          <p className="lead">
+            <i className="fab fa-connectdevelop" /> Browse and connect with
             developers
           </p>
-          <div className='profiles'>
+          <div className="profiles">
             {profiles.length > 0 ? (
-              profiles.map(profile => (
+              profiles.map((profile) => (
                 <ProfileItem key={profile._id} profile={profile} />
               ))
             ) : (
@@ -32,7 +32,7 @@ const Profiles = ({ getProfiles, profile: { profiles, loading } }) => {
           </div>
         </Fragment>
       )}
-    </Fragment>
+    </section>
   );
 };
 
@@ -41,11 +41,8 @@ Profiles.propTypes = {
   profile: PropTypes.object.isRequired
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   profile: state.profile
 });
 
-export default connect(
-  mapStateToProps,
-  { getProfiles }
-)(Profiles);
+export default connect(mapStateToProps, { getProfiles })(Profiles);

@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Spinner from '../layout/Spinner';
 import ProfileTop from './ProfileTop';
@@ -10,13 +10,14 @@ import ProfileEducation from './ProfileEducation';
 import ProfileGithub from './ProfileGithub';
 import { getProfileById } from '../../actions/profile';
 
-const Profile = ({ getProfileById, profile: { profile }, auth, match }) => {
+const Profile = ({ getProfileById, profile: { profile }, auth }) => {
+  const { id } = useParams();
   useEffect(() => {
-    getProfileById(match.params.id);
-  }, [getProfileById, match.params.id]);
+    getProfileById(id);
+  }, [getProfileById, id]);
 
   return (
-    <Fragment>
+    <section className="container">
       {profile === null ? (
         <Spinner />
       ) : (
@@ -72,7 +73,7 @@ const Profile = ({ getProfileById, profile: { profile }, auth, match }) => {
           </div>
         </Fragment>
       )}
-    </Fragment>
+    </section>
   );
 };
 
