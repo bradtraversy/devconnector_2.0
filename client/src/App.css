@@ -575,3 +575,10 @@ button {
     padding: 0.3rem 0.4rem;
   }
 }
+
+.alert-wrapper {
+  position: fixed;
+  top: 4rem;
+  right: 2rem;
+  display: inline-block;
+}
