@@ -46,36 +46,33 @@ const App = () => {
         <Alert />
         <Routes>
           <Route path="/" element={<Landing />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/profiles" element={<Profiles />} />
-          <Route path="/profile/:id" element={<Profile />} />
+          <Route path="register" element={<Register />} />
+          <Route path="login" element={<Login />} />
+          <Route path="profiles" element={<Profiles />} />
+          <Route path="profile/:id" element={<Profile />} />
           <Route
-            path="/dashboard"
+            path="dashboard"
             element={<PrivateRoute component={Dashboard} />}
           />
           <Route
-            path="/create-profile"
+            path="create-profile"
             element={<PrivateRoute component={ProfileForm} />}
           />
           <Route
-            path="/edit-profile"
+            path="edit-profile"
             element={<PrivateRoute component={ProfileForm} />}
           />
           <Route
-            path="/add-experience"
+            path="add-experience"
             element={<PrivateRoute component={AddExperience} />}
           />
           <Route
-            path="/add-education"
+            path="add-education"
             elemtn={<PrivateRoute component={AddEducation} />}
           />
-          <Route path="/posts" element={<PrivateRoute component={Posts} />} />
-          <Route
-            path="/posts/:id"
-            element={<PrivateRoute component={Post} />}
-          />
-          <Route element={<NotFound />} />
+          <Route path="posts" element={<PrivateRoute component={Posts} />} />
+          <Route path="posts/:id" element={<PrivateRoute component={Post} />} />
+          <Route path="/*" element={<NotFound />} />
         </Routes>
       </Router>
     </Provider>
