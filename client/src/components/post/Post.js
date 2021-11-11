@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Spinner from '../layout/Spinner';
 import PostItem from '../posts/PostItem';
@@ -8,10 +8,11 @@ import CommentForm from '../post/CommentForm';
 import CommentItem from '../post/CommentItem';
 import { getPost } from '../../actions/post';
 
-const Post = ({ getPost, post: { post, loading }, match }) => {
+const Post = ({ getPost, post: { post, loading } }) => {
+  const { id } = useParams();
   useEffect(() => {
-    getPost(match.params.id);
-  }, [getPost, match.params.id]);
+    getPost(id);
+  }, [getPost, id]);
 
   return loading || post === null ? (
     <Spinner />
