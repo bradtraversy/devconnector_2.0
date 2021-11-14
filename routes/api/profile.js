@@ -3,10 +3,11 @@ const axios = require('axios');
 const config = require('config');
 const router = express.Router();
 const auth = require('../../middleware/auth');
-const { check, validationResult } = require('express-validator');
+const { check } = require('express-validator');
 // bring in normalize to give us a proper url, regardless of what user entered
 const normalize = require('normalize-url');
 const checkObjectId = require('../../middleware/checkObjectId');
+const validationsResults = require('../../middleware/validationsResults');
 
 const Profile = require('../../models/Profile');
 const User = require('../../models/User');
@@ -40,12 +41,8 @@ router.post(
   auth,
   check('status', 'Status is required').notEmpty(),
   check('skills', 'Skills is required').notEmpty(),
+  validationsResults,
   async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-
     // destructure the request
     const {
       website,
@@ -165,12 +162,8 @@ router.put(
   check('from', 'From date is required and needs to be from the past')
     .notEmpty()
     .custom((value, { req }) => (req.body.to ? value < req.body.to : true)),
+  validationsResults,
   async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-
     try {
       const profile = await Profile.findOne({ user: req.user.id });
 
@@ -218,12 +211,8 @@ router.put(
   check('from', 'From date is required and needs to be from the past')
     .notEmpty()
     .custom((value, { req }) => (req.body.to ? value < req.body.to : true)),
+  validationsResults,
   async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-
     try {
       const profile = await Profile.findOne({ user: req.user.id });
 

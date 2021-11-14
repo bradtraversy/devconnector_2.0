@@ -4,10 +4,11 @@ const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('config');
-const { check, validationResult } = require('express-validator');
+const { check } = require('express-validator');
 const normalize = require('normalize-url');
 
 const User = require('../../models/User');
+const validationsResults = require('../../middleware/validationsResults');
 
 // @route    POST api/users
 // @desc     Register user
@@ -20,12 +21,8 @@ router.post(
     'password',
     'Please enter a password with 6 or more characters'
   ).isLength({ min: 6 }),
+  validationsResults,
   async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-
     const { name, email, password } = req.body;
 
     try {
