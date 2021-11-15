@@ -11,8 +11,15 @@ import {
   REMOVE_COMMENT
 } from './types';
 
+/*
+  NOTE: we don't need a config object for axios as the
+ default headers in axios are already Content-Type: application/json
+ also axios stringifies and parses JSON for you, so no need for 
+ JSON.stringify or JSON.parse
+*/
+
 // Get posts
-export const getPosts = () => async dispatch => {
+export const getPosts = () => async (dispatch) => {
   try {
     const res = await api.get('/posts');
 
@@ -29,7 +36,7 @@ export const getPosts = () => async dispatch => {
 };
 
 // Add like
-export const addLike = id => async dispatch => {
+export const addLike = (id) => async (dispatch) => {
   try {
     const res = await api.put(`/posts/like/${id}`);
 
@@ -46,7 +53,7 @@ export const addLike = id => async dispatch => {
 };
 
 // Remove like
-export const removeLike = id => async dispatch => {
+export const removeLike = (id) => async (dispatch) => {
   try {
     const res = await api.put(`/posts/unlike/${id}`);
 
@@ -63,7 +70,7 @@ export const removeLike = id => async dispatch => {
 };
 
 // Delete post
-export const deletePost = id => async dispatch => {
+export const deletePost = (id) => async (dispatch) => {
   try {
     await api.delete(`/posts/${id}`);
 
@@ -82,7 +89,7 @@ export const deletePost = id => async dispatch => {
 };
 
 // Add post
-export const addPost = formData => async dispatch => {
+export const addPost = (formData) => async (dispatch) => {
   try {
     const res = await api.post('/posts', formData);
 
@@ -101,7 +108,7 @@ export const addPost = formData => async dispatch => {
 };
 
 // Get post
-export const getPost = id => async dispatch => {
+export const getPost = (id) => async (dispatch) => {
   try {
     const res = await api.get(`/posts/${id}`);
 
@@ -118,7 +125,7 @@ export const getPost = id => async dispatch => {
 };
 
 // Add comment
-export const addComment = (postId, formData) => async dispatch => {
+export const addComment = (postId, formData) => async (dispatch) => {
   try {
     const res = await api.post(`/posts/comment/${postId}`, formData);
 
@@ -137,7 +144,7 @@ export const addComment = (postId, formData) => async dispatch => {
 };
 
 // Delete comment
-export const deleteComment = (postId, commentId) => async dispatch => {
+export const deleteComment = (postId, commentId) => async (dispatch) => {
   try {
     await api.delete(`/posts/comment/${postId}/${commentId}`);
 

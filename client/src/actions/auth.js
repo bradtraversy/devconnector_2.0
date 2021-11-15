@@ -10,8 +10,15 @@ import {
   LOGOUT
 } from './types';
 
+/*
+  NOTE: we don't need a config object for axios as the
+ default headers in axios are already Content-Type: application/json
+ also axios stringifies and parses JSON for you, so no need for 
+ JSON.stringify or JSON.parse
+*/
+
 // Load User
-export const loadUser = () => async dispatch => {
+export const loadUser = () => async (dispatch) => {
   try {
     const res = await api.get('/auth');
 
@@ -27,7 +34,7 @@ export const loadUser = () => async dispatch => {
 };
 
 // Register User
-export const register = formData => async dispatch => {
+export const register = (formData) => async (dispatch) => {
   try {
     const res = await api.post('/users', formData);
 
@@ -40,7 +47,7 @@ export const register = formData => async dispatch => {
     const errors = err.response.data.errors;
 
     if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+      errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
     }
 
     dispatch({
@@ -50,7 +57,7 @@ export const register = formData => async dispatch => {
 };
 
 // Login User
-export const login = (email, password) => async dispatch => {
+export const login = (email, password) => async (dispatch) => {
   const body = { email, password };
 
   try {
@@ -66,7 +73,7 @@ export const login = (email, password) => async dispatch => {
     const errors = err.response.data.errors;
 
     if (errors) {
-      errors.forEach(error => dispatch(setAlert(error.msg, 'danger')));
+      errors.forEach((error) => dispatch(setAlert(error.msg, 'danger')));
     }
 
     dispatch({
