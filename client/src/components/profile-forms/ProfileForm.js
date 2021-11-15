@@ -7,7 +7,7 @@ import { createProfile, getCurrentProfile } from '../../actions/profile';
 /*
   NOTE: declare initialState outside of component
   so that it doesn't trigger a useEffect
-  we can then safely use this tot construct our profileData
+  we can then safely use this to construct our profileData
  */
 const initialState = {
   company: '',
