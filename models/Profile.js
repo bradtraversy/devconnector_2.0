@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const ProfileSchema = new mongoose.Schema({
   user: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: mongoose.Schema.Types.Mixed, // I was having a parsing error with the object id
     ref: 'user'
   },
   company: {
