@@ -352,7 +352,7 @@ button {
 /* Profiles Page */
 .profile {
   display: grid;
-  grid-template-columns: 2fr 4fr 2fr;
+  grid-template-columns: 2fr 4fr 2fr 1fr;
   align-items: center;
   grid-gap: 2rem;
   padding: 1rem;
@@ -360,11 +360,18 @@ button {
   margin-bottom: 1rem;
 }
 
+.profile .profile-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 /* Profile Page */
 .profile-grid {
   display: grid;
   grid-template-areas:
     'top top'
+    'follow follow'
     'about about'
     'exp edu'
     'github github';
@@ -391,6 +398,31 @@ button {
 
 .profile-top .icons a:hover {
   color: var(--dark-color);
+}
+
+.profile-follow {
+  grid-area: follow;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+}
+
+.profiles-follow {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+}
+
+.profiles-follow .follow-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
 }
 
 .profile-about {
@@ -551,6 +583,7 @@ button {
   .profile-grid {
     grid-template-areas:
       'top'
+      'follow'
       'about'
       'exp'
       'edu'
