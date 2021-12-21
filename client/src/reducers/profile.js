@@ -5,7 +5,9 @@ import {
   UPDATE_PROFILE,
   GET_PROFILES,
   GET_REPOS,
-  NO_REPOS
+  NO_REPOS,
+  UPDATE_FOLLOWERS, 
+  GET_FOLLOWERS
 } from '../actions/types';
 
 const initialState = {
@@ -13,6 +15,7 @@ const initialState = {
   profiles: [],
   repos: [],
   loading: true,
+  followers: [],
   error: {}
 };
 
@@ -33,6 +36,12 @@ function profileReducer(state = initialState, action) {
         profiles: payload,
         loading: false
       };
+    case GET_FOLLOWERS:
+      return {
+        ...state,
+        followers: payload,
+        loading: false
+      };
     case PROFILE_ERROR:
       return {
         ...state,
@@ -44,7 +53,8 @@ function profileReducer(state = initialState, action) {
       return {
         ...state,
         profile: null,
-        repos: []
+        repos: [],
+        followers: []
       };
     case GET_REPOS:
       return {
@@ -56,6 +66,14 @@ function profileReducer(state = initialState, action) {
       return {
         ...state,
         repos: []
+      };
+    case UPDATE_FOLLOWERS:
+      return {
+          ...state,
+          profiles: state.profiles.map(
+              profile => profile._id === payload.id ? { ...profile, followers: payload.followers } : profile
+          ),
+          loading: false
       };
     default:
       return state;
