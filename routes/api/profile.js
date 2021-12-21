@@ -154,6 +154,75 @@ router.delete('/', auth, async (req, res) => {
   }
 });
 
+// @route  PUT api/profile/follow/:id
+// @desc   Follow a user's profile
+// @access Private
+
+router.put('/follow/:id', auth, async (req, res) => {
+  try {
+      const profile = await Profile.findById(req.params.id);
+
+      // Check if the profile has already been followed
+      if(profile.followers.filter(follower => follower.user.toString() === req.user.id).length > 0) {
+          return res.status(400).json({ msg: 'Already following the user' });
+      }
+
+      profile.followers.unshift({ user: req.user.id });
+
+      await profile.save();
+
+      res.json(profile.followers);
+  } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+  }
+});
+
+// @route  PUT api/profile/unfollow/:id
+// @desc   Unfollow a user's profile
+// @access Private
+
+router.put('/unfollow/:id', auth, async (req, res) => {
+  try {
+      const profile = await Profile.findById(req.params.id);
+
+      // Check if the profile has already been followed
+      if(profile.followers.filter(follower => follower.user.toString() === req.user.id).length === 0) {
+          return res.status(400).json({ msg: 'You are not following this user yet.' });
+      }
+
+      // Get remove index
+      const removeIndex = profile.followers.map(follower => follower.user.toString()).indexOf(req.user.id);
+
+      profile.followers.splice(removeIndex, 1);
+
+      await profile.save();
+
+      res.json(profile.followers);
+  } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+  }
+});
+
+// @route  GET api/profile/followers/:id
+// @desc   Get all followers of a profile by id
+// @access Public
+
+router.get('/followers/:id', async (req, res) => {
+  try {
+      const profile = await Profile.findById(req.params.id);
+      const followers = [];
+      for(let i = 0; i < profile.followers.length; i++) {
+          followers.push(await User.findById(profile.followers[i].user).select("name avatar"));
+      }
+      res.json(followers);
+  } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+  }
+})
+
 // @route    PUT api/profile/experience
 // @desc     Add profile experience
 // @access   Private
