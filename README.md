@@ -146,6 +146,7 @@ We can use this listener to **_watch_** our store and set our auth token in loca
 The subscription can be seen in [client/src/store.js](https://github.com/bradtraversy/devconnector_2.0/blob/master/client/src/store.js)
 
 We also need to change our [client/src/utils/setAuthToken.js](https://github.com/bradtraversy/devconnector_2.0/blob/master/client/src/utils/setAuthToken.js) so it now handles both the setting of the token in local storage and in axios headers.
+`setauthToken.js` in turn depends on [client/src/utils/api.js](https://github.com/bradtraversy/devconnector_2.0/blob/master/client/src/utils/api.js) where we create an instance of axios. So you will also need to grab that file.
 
 With those two changes in place we can remove all setting of local storage from [client/src/reducers/auth.js](https://github.com/bradtraversy/devconnector_2.0/blob/master/client/src/reducers/auth.js). And remove setting of the token in axios headers from [client/src/actions/auth.js](https://github.com/bradtraversy/devconnector_2.0/blob/master/client/src/actions/auth.js). This helps keep our code predictable, manageable and ultimately bug free.
 
