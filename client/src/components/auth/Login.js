@@ -38,7 +38,6 @@ const Login = ({ login, isAuthenticated }) => {
             name="email"
             value={email}
             onChange={onChange}
-            required
           />
         </div>
         <div className="form-group">
