@@ -34,16 +34,13 @@ GitHub does have your back here though. If you accidentally push code to a repos
 You'll also need to change the options object in `routes/api/profile.js` where we make the request to the GitHub API to...
 
 ```javascript
-const options = {
-  uri: encodeURI(
-    `https://api.github.com/users/${req.params.username}/repos?per_page=5&sort=created:asc`
-  ),
-  method: 'GET',
-  headers: {
-    'user-agent': 'node.js',
-    Authorization: `token ${config.get('githubToken')}`
-  }
-};
+const uri = encodeURI(
+      `https://api.github.com/users/${req.params.username}/repos?per_page=5&sort=created:asc`
+    );
+    const headers = {
+      'user-agent': 'node.js',
+      Authorization: `token ${config.get('githubToken')}`
+    };
 ```
 
 ### npm package request deprecated
