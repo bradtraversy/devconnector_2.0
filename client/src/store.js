@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import authReducer from './reducers/auth';
-import alertReducer from './reducers/alert';
+import alertReducer from './slices/alertSlice';
 import profileReducer from './reducers/profile';
 import postReducer from './reducers/post';
 import setAuthToken from './utils/setAuthToken';
