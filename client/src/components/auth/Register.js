@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { Link, Navigate } from 'react-router-dom';
 import { setAlert } from '../../slices/alertSlice';
-import { register } from '../../actions/auth';
+import { register } from '../../slices/authSlice';
 import PropTypes from 'prop-types';
 
 const Register = ({ setAlert, register, isAuthenticated }) => {

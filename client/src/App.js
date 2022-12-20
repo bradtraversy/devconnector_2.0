@@ -20,7 +20,7 @@ import { LOGOUT } from './actions/types';
 // Redux
 import { Provider } from 'react-redux';
 import store from './store';
-import { loadUser } from './actions/auth';
+import { loadUser } from './slices/authSlice';
 import setAuthToken from './utils/setAuthToken';
 
 import './App.css';
