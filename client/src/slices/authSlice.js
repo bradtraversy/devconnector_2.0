@@ -21,35 +21,43 @@ export const loadUser = createAsyncThunk(
   }
 );
 
-export const register = createAsyncThunk('auth/register', async (formData) => {
-  try {
-    const res = await api.post('/users', formData);
-    loadUser();
-    return res.data;
-  } catch (err) {
-    const errors = err.response.data.errors;
-    if (errors) {
-      errors.forEach((error) => {
-        setAlert(error.msg, 'danger');
-      });
+export const register = createAsyncThunk(
+  'auth/register',
+  async (formData, thunkApi) => {
+    try {
+      const res = await api.post('/users', formData);
+      thunkApi.dispatch(loadUser());
+      return res.data;
+    } catch (err) {
+      const errors = err.response.data.errors;
+      if (errors) {
+        errors.forEach((error) => {
+          thunkApi.dispatch(setAlert(error.msg, 'danger'));
+        });
+      }
+      return thunkApi.rejectWithValue();
     }
   }
-});
+);
 
-export const login = createAsyncThunk('auth/login', async (formData) => {
-  try {
-    const res = await api.post('/auth', formData);
-    loadUser();
-    return res.data;
-  } catch (err) {
-    const errors = err.response.data.errors;
-    if (errors) {
-      errors.forEach((error) => {
-        setAlert(error.msg, 'danger');
-      });
+export const login = createAsyncThunk(
+  'auth/login',
+  async (formData, thunkApi) => {
+    try {
+      const res = await api.post('/auth', formData);
+      thunkApi.dispatch(loadUser());
+      return res.data;
+    } catch (err) {
+      const errors = err.response.data.errors;
+      if (errors) {
+        errors.forEach((error) => {
+          thunkApi.dispatch(setAlert(error.msg, 'danger'));
+        });
+      }
+      return thunkApi.rejectWithValue();
     }
   }
-});
+);
 
 export const logout = createAction('auth/logout');
 
@@ -94,7 +102,10 @@ const authSlice = createSlice({
       .addCase(loadUser.fulfilled, (state, action) => {
         state.user = action.payload;
       })
-      .addCase(loadUser.rejected, () => initialState);
+      .addCase(loadUser.rejected, (state) => {
+        state.user = null;
+        state.loading = false;
+      });
   }
 });
 
