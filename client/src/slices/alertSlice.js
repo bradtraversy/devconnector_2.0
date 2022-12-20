@@ -6,14 +6,13 @@ export function setAlert(msg, alertType, timeout = 5000) {
   return function (dispatch) {
     const id = nanoid();
     dispatch({
-      type: 'alert/setAlert',
+      type: 'alert/set',
       payload: { msg, alertType, id }
     });
 
-    setTimeout(
-      () => dispatch({ type: 'alert/removeAlert', payload: id }),
-      timeout
-    );
+    setTimeout(() => {
+      dispatch({ type: 'alert/remove', payload: id });
+    }, timeout);
   };
 }
 
@@ -21,12 +20,12 @@ const alertSlice = createSlice({
   name: 'alert',
   initialState,
   reducers: {
-    setAlert(state, action) {
+    remove(state, action) {
+      return state.filter((alert) => alert.id !== action.payload);
+    },
+    set(state, action) {
       state.push(action.payload);
     }
-  },
-  removeAlert(state, action) {
-    state = state.filter((alert) => alert.id !== action.payload.id);
   }
 });
 
