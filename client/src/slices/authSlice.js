@@ -2,10 +2,12 @@ import { createAction, createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import api from '../utils/api';
 import { setAlert } from './alertSlice';
 
+// TODO: remove loading state and make better use of AsyncThunk
+
 const initialState = {
   token: localStorage.getItem('token'),
   isAuthenticated: null,
-  loading: false,
+  loading: true,
   user: null
 };
 
@@ -101,10 +103,13 @@ const authSlice = createSlice({
       })
       .addCase(loadUser.fulfilled, (state, action) => {
         state.user = action.payload;
+        state.isAuthenticated = true;
+        state.loading = false;
       })
       .addCase(loadUser.rejected, (state) => {
         state.user = null;
         state.loading = false;
+        state.isAuthenticated = false;
       });
   }
 });
