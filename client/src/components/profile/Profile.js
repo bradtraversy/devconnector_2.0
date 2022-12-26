@@ -8,7 +8,7 @@ import ProfileAbout from './ProfileAbout';
 import ProfileExperience from './ProfileExperience';
 import ProfileEducation from './ProfileEducation';
 import ProfileGithub from './ProfileGithub';
-import { getProfileById } from '../../actions/profile';
+import { getProfileById } from '../../slices/profileSlice';
 
 const Profile = ({ getProfileById, profile: { profile }, auth }) => {
   const { id } = useParams();

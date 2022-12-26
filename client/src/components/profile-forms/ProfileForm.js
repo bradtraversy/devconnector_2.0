@@ -2,7 +2,7 @@ import React, { Fragment, useState, useEffect } from 'react';
 import { Link, useMatch, useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { createProfile, getCurrentProfile } from '../../actions/profile';
+import { createProfile, getCurrentProfile } from '../../slices/profileSlice';
 
 /*
   NOTE: declare initialState outside of component
@@ -39,6 +39,7 @@ const ProfileForm = ({
 
   useEffect(() => {
     // if there is no profile, attempt to fetch one
+    // FIX: issues here with dependenices and loading state
     if (!profile) getCurrentProfile();
 
     // if we finished loading and we do have a profile
@@ -57,7 +58,7 @@ const ProfileForm = ({
       // set local state with the profileData
       setFormData(profileData);
     }
-  }, [loading, getCurrentProfile, profile]);
+  }, [getCurrentProfile]);
 
   const {
     company,
@@ -79,7 +80,11 @@ const ProfileForm = ({
 
   const onSubmit = (e) => {
     e.preventDefault();
-    createProfile(formData, navigate, profile ? true : false);
+    createProfile({ formData, edit: profile ? true : false })
+      .unwrap()
+      .then(() => {
+        navigate('/dashboard');
+      });
   };
 
   return (

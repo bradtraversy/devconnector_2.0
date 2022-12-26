@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { deleteExperience } from '../../actions/profile';
+import { deleteExperience } from '../../slices/profileSlice';
 import formatDate from '../../utils/formatDate';
 
 const Experience = ({ experience, deleteExperience }) => {

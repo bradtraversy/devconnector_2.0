@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import DashboardActions from './DashboardActions';
 import Experience from './Experience';
 import Education from './Education';
-import { getCurrentProfile, deleteAccount } from '../../actions/profile';
+import { getCurrentProfile, deleteAccount } from '../../slices/profileSlice';
 
 const Dashboard = ({
   getCurrentProfile,
