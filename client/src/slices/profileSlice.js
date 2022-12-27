@@ -3,12 +3,14 @@ import api from '../utils/api';
 import { setAlert } from './alertSlice';
 import { logout } from './authSlice';
 
+// TODO: remove loading state and make better use of ASyncThunk
+
 const initialState = {
   profile: null,
   profiles: [],
   repos: [],
   loading: false,
-  error: {}
+  error: null
 };
 
 export const getCurrentProfile = createAsyncThunk(
@@ -229,9 +231,6 @@ const profileSlice = createSlice({
       .addCase(getProfileById.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-      })
-      .addCase(getGithubRepos.pending, (state) => {
-        state.loading = true;
       })
       .addCase(getGithubRepos.fulfilled, (state, action) => {
         state.loading = false;
