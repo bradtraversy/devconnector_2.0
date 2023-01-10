@@ -5,7 +5,9 @@ const router = express.Router();
 const auth = require('../../middleware/auth');
 const { check, validationResult } = require('express-validator');
 // bring in normalize to give us a proper url, regardless of what user entered
-const normalize = require('normalize-url');
+let normalize;
+// user dynamic import of ESM
+import('express-validator').then((module) => (normalize = module));
 const checkObjectId = require('../../middleware/checkObjectId');
 
 const Profile = require('../../models/Profile');

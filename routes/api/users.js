@@ -5,7 +5,10 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('config');
 const { check, validationResult } = require('express-validator');
-const normalize = require('normalize-url');
+// bring in normalize to give us a proper url, regardless of what user entered
+let normalize;
+// user dynamic import of ESM
+import('express-validator').then((module) => (normalize = module));
 
 const User = require('../../models/User');
 
