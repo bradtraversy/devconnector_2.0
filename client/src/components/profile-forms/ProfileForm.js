@@ -25,7 +25,7 @@ const initialState = {
 };
 
 const ProfileForm = ({
-  profile: { profile, loading },
+  profile: { profile },
   createProfile,
   getCurrentProfile
 }) => {
@@ -39,12 +39,11 @@ const ProfileForm = ({
 
   useEffect(() => {
     // if there is no profile, attempt to fetch one
-    // FIX: issues here with dependenices and loading state
     if (!profile) getCurrentProfile();
 
     // if we finished loading and we do have a profile
     // then build our profileData
-    if (!loading && profile) {
+    if (profile) {
       const profileData = { ...initialState };
       for (const key in profile) {
         if (key in profileData) profileData[key] = profile[key];
@@ -58,7 +57,7 @@ const ProfileForm = ({
       // set local state with the profileData
       setFormData(profileData);
     }
-  }, [getCurrentProfile]);
+  }, [getCurrentProfile, profile]);
 
   const {
     company,
