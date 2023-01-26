@@ -33,7 +33,7 @@ const AddExperience = ({ addExperience }) => {
         className="form"
         onSubmit={(e) => {
           e.preventDefault();
-          addExperience(formData, navigate);
+          addExperience(formData).then(() => navigate('/dashboard'));
         }}
       >
         <div className="form-group">

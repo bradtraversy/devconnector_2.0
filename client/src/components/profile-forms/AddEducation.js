@@ -34,7 +34,7 @@ const AddEducation = ({ addEducation }) => {
         className="form"
         onSubmit={(e) => {
           e.preventDefault();
-          addEducation(formData, navigate);
+          addEducation(formData).then(() => navigate('/dashboard'));
         }}
       >
         <div className="form-group">

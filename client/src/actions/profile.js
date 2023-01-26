@@ -122,7 +122,7 @@ export const createProfile =
   };
 
 // Add Experience
-export const addExperience = (formData, navigate) => async (dispatch) => {
+export const addExperience = (formData) => async (dispatch) => {
   try {
     const res = await api.put('/profile/experience', formData);
 
@@ -132,8 +132,7 @@ export const addExperience = (formData, navigate) => async (dispatch) => {
     });
 
     dispatch(setAlert('Experience Added', 'success'));
-
-    navigate('/dashboard');
+    return res.data;
   } catch (err) {
     const errors = err.response.data.errors;
 
@@ -149,7 +148,7 @@ export const addExperience = (formData, navigate) => async (dispatch) => {
 };
 
 // Add Education
-export const addEducation = (formData, navigate) => async (dispatch) => {
+export const addEducation = (formData) => async (dispatch) => {
   try {
     const res = await api.put('/profile/education', formData);
 
@@ -159,8 +158,7 @@ export const addEducation = (formData, navigate) => async (dispatch) => {
     });
 
     dispatch(setAlert('Education Added', 'success'));
-
-    navigate('/dashboard');
+    return res.data;
   } catch (err) {
     const errors = err.response.data.errors;
 
