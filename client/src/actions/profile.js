@@ -9,7 +9,9 @@ import {
   CLEAR_PROFILE,
   ACCOUNT_DELETED,
   GET_REPOS,
-  NO_REPOS
+  NO_REPOS,
+  UPDATE_FOLLOWERS, 
+  GET_FOLLOWERS
 } from './types';
 
 /*
@@ -116,6 +118,59 @@ export const createProfile =
       });
     }
   };
+
+// Add follower
+export const addFollower = id => async dispatch => {
+  try {
+      const res = await api.put(`/api/profile/follow/${id}`);
+
+      dispatch({
+          type: UPDATE_FOLLOWERS,
+          payload: { id, followers: res.data}
+      });
+  } catch (err) {
+      dispatch({
+          type: PROFILE_ERROR,
+          payload: { msg: err.response.statusText, status: err.response.status }
+      });
+  }
+}
+
+// Remove follower
+export const removeFollower = id => async dispatch => {
+  try {
+      const res = await api.put(`/api/profile/unfollow/${id}`);
+
+      dispatch({
+          type: UPDATE_FOLLOWERS,
+          payload: { id, followers: res.data}
+      });
+  } catch (err) {
+      dispatch({
+          type: PROFILE_ERROR,
+          payload: { msg: err.response.statusText, status: err.response.status }
+      });
+  }
+}
+
+// Get all followers of a profile by id
+export const getFollowers = id => async dispatch => {
+  dispatch({ type: CLEAR_PROFILE });
+
+  try {
+      const res = await api.get(`/api/profile/followers/${id}`);
+
+      dispatch({
+          type: GET_FOLLOWERS,
+          payload: res.data
+      });
+  } catch (err) {
+      dispatch({
+          type: PROFILE_ERROR,
+          payload: { msg: err.response.statusText, status: err.response.status }
+      });
+  }
+}
 
 // Add Experience
 export const addExperience = (formData) => async (dispatch) => {

@@ -28,6 +28,14 @@ const ProfileSchema = new mongoose.Schema({
   githubusername: {
     type: String
   },
+  followers: [
+    {
+        user: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'users'
+        }
+    }
+  ],
   experience: [
     {
       title: {

@@ -10,6 +10,7 @@ import ProfileForm from './components/profile-forms/ProfileForm';
 import AddExperience from './components/profile-forms/AddExperience';
 import AddEducation from './components/profile-forms/AddEducation';
 import Profiles from './components/profiles/Profiles';
+import ProfileFollowerList from './components/profiles/ProfileFollowerList';
 import Profile from './components/profile/Profile';
 import Posts from './components/posts/Posts';
 import Post from './components/post/Post';
@@ -53,6 +54,7 @@ const App = () => {
           <Route path="login" element={<Login />} />
           <Route path="profiles" element={<Profiles />} />
           <Route path="profile/:id" element={<Profile />} />
+          <Route path="/profile/followers/:id" element={<ProfileFollowerList />} />
           <Route
             path="dashboard"
             element={<PrivateRoute component={Dashboard} />}
